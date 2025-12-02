@@ -1,0 +1,80 @@
+#para método VerificarLogin
+
+SELECT r.JMMV_roles_nombre AS rol_usuario, u.JMMV_usuarios_nom_usuario AS nombre_usuario
+FROM JMMV_usuarios u
+JOIN JMMV_roles r ON u.JMMV_usuarios_id_rol = r.JMMV_roles_id_rol
+WHERE u.JMMV_usuarios_nom_usuario = 'admin' AND u.JMMV_usuarios_contrasena = '123';
+
+#CRUD reservas
+#para método MostrarTodasLasReservas
+
+SELECT 
+r.JMMV_reservas_id_reserva AS id, 
+d.JMMV_datos_personales_nombres AS nombre, 
+d.JMMV_datos_personales_apellido_paterno AS apellido_pat,
+d.JMMV_datos_personales_apellido_materno AS apellido_mat,
+b.JMMV_bicicletas_nombre AS bicicleta,
+r.JMMV_reservas_fecha_inicio AS fecha_inicio,
+r.JMMV_reservas_fecha_fin AS fecha_fin
+FROM JMMV_reservas r
+JOIN JMMV_usuarios u ON r.JMMV_reservas_id_cliente = u.JMMV_usuarios_id_usuario
+JOIN jmmv_datos_personales d ON u.JMMV_usuarios_id_dato_personal = d.JMMV_datos_personales_id_dato_personal
+JOIN jmmv_bicicletas b ON r.JMMV_reservas_id_bicicleta = b.JMMV_bicicletas_id_bicicleta
+JOIN jmmv_tipos_bicicletas t ON b.JMMV_bicicletas_id_tipo_bicicleta = t.JMMV_tipos_bicicletas_id_tipo_bicicleta
+ORDER BY r.JMMV_reservas_id_reserva ASC;
+
+#ppara método AgregarReserva
+
+INSERT INTO JMMV_reservas
+VALUES(NULL,7,14,'2025-12-09','2025-10-12');
+
+#para método EditarReserva
+
+INSERT INTO JMMV_reservas
+VALUES(NULL,9,15,'2025-12-09','2025-10-12');
+
+#para método EliminarReserva
+
+DELETE FROM JMMV_reservas
+WHERE JMMV_reservas.JMMV_reservas_id_reserva = 12;
+
+#CARGA DE COMBOBOX
+#para método ObtenerTodosLosTiposDeBicicletas
+
+SELECT JMMV_tipos_bicicletas_nombre
+FROM JMMV_tipos_bicicletas
+ORDER BY JMMV_tipos_bicicletas_nombre ASC;
+
+#para método ObtenerTodasLasComunas
+
+SELECT JMMV_comunas_nombre
+FROM JMMV_comunas
+ORDER BY JMMV_comunas_nombre ASC;
+
+#AUXILIARES
+#para método ConsultarUltimaFechaFinDelCliente (se usará para determinar si puede o no reservar)
+
+SELECT JMMV_reservas_fecha_fin 
+FROM JMMV_reservas
+WHERE JMMV_reservas.JMMV_reservas_id_cliente = 2
+ORDER BY JMMV_reservas_fecha_fin DESC
+LIMIT 1;
+
+#para método ConsultarUltimaFechaFinDeBicicleta (se usará para determinar su disponibilidad)
+
+SELECT JMMV_reservas_fecha_fin 
+FROM JMMV_reservas
+WHERE JMMV_reservas.JMMV_reservas_id_bicicleta = 2
+ORDER BY JMMV_reservas_fecha_fin DESC
+LIMIT 1;
+
+#para método InvertirDisponibilidadBicicleta
+
+UPDATE JMMV_bicicletas
+SET JMMV_bicicletas_esta_disponible = NOT JMMV_bicicletas_esta_disponible
+WHERE JMMV_bicicletas_id_bicicleta = 3;
+
+
+
+
+
