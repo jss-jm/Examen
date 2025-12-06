@@ -1,36 +1,39 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package GUI;
 import datosDAO.*;
+import javax.swing.JOptionPane;
 import logica.*;
 
-/**
- *
- * @author Agustin
- */
+
 public class JMMV_Confirmacion extends javax.swing.JDialog {
 
     private JMMV_Cliente cliente;
     private JMMV_Bicicleta bicicleta;
     private JMMV_Reserva reserva;
+    private JMMV_ClienteDAO clienteDAO;
+    private JMMV_BicicletaDAO bicicletaDAO;
+    private JMMV_ReservaDAO reservaDAO;
+    private int picker;
+    
     public JMMV_Confirmacion(java.awt.Frame parent, boolean modal, JMMV_Cliente cliente) {
         super(parent, modal);
         initComponents();
         this.cliente = cliente;
+        this.picker = 1;
     }
     
     public JMMV_Confirmacion(java.awt.Frame parent, boolean modal, JMMV_Bicicleta bicicleta) {
         super(parent, modal);
         initComponents();
         this.bicicleta = bicicleta;
+        this.picker = 0;
     }
     
     public JMMV_Confirmacion(java.awt.Frame parent, boolean modal, JMMV_Reserva reserva) {
         super(parent, modal);
         initComponents();
         this.reserva = reserva;
+        this.picker = 2;
     }
 
     /**
@@ -45,8 +48,8 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
         jPanel1 = new javax.swing.JPanel();
         lbNombre = new javax.swing.JLabel();
         lbPregunta = new javax.swing.JLabel();
-        btnSi = new javax.swing.JButton();
         btnNo = new javax.swing.JButton();
+        btnSi = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -56,14 +59,19 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
         lbPregunta.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbPregunta.setText("¿Estás seguro de querer eliminarlo?");
 
-        btnSi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnSi.setText("No");
-
         btnNo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        btnNo.setText("Si");
+        btnNo.setText("No");
         btnNo.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnNoActionPerformed(evt);
+            }
+        });
+
+        btnSi.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnSi.setText("Si");
+        btnSi.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnSiActionPerformed(evt);
             }
         });
 
@@ -72,14 +80,15 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(67, 67, 67)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                .addGap(54, 54, 54)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addComponent(lbPregunta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(lbNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnNo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnSi, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addComponent(lbPregunta, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(lbNombre, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.PREFERRED_SIZE, 289, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(btnSi, javax.swing.GroupLayout.PREFERRED_SIZE, 135, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(31, 31, 31)
+                        .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)))
                 .addContainerGap(66, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
@@ -91,8 +100,8 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
                 .addComponent(lbPregunta)
                 .addGap(38, 38, 38)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnSi, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(btnNo, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnSi, javax.swing.GroupLayout.PREFERRED_SIZE, 47, javax.swing.GroupLayout.PREFERRED_SIZE))
                 .addContainerGap(61, Short.MAX_VALUE))
         );
 
@@ -110,8 +119,25 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    private void btnSiActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSiActionPerformed
+        switch (picker) {
+            case 0 -> {
+                bicicletaDAO.JMMV_EliminarBicicleta(bicicleta.getJMMV_Bicicleta_nombre());
+                JOptionPane.showMessageDialog(this, "Bicicleta eliminada con exito", "Eliminación exitosa", JOptionPane.ERROR_MESSAGE);
+            }
+            case 1 -> {
+                clienteDAO.JMMV_EliminarCliente(cliente.getJMMV_Cliente_idCliente());
+                JOptionPane.showMessageDialog(this, "Cliente eliminado con exito", "Eliminación exitosa", JOptionPane.ERROR_MESSAGE);
+            }
+            default -> {
+                reservaDAO.JMMV_EliminarReserva(reserva.getJMMV_idReserva());
+                JOptionPane.showMessageDialog(this, "Reserva eliminada con exito", "Eliminación exitosa", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+    }//GEN-LAST:event_btnSiActionPerformed
+
     private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
-        
+        this.dispose();
     }//GEN-LAST:event_btnNoActionPerformed
 
     

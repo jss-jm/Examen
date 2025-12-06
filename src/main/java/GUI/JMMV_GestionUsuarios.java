@@ -1,18 +1,11 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package GUI;
 
 import logica.JMMV_Cliente;
 import datosDAO.JMMV_ClienteDAO;
 import java.util.List;
-import javax.swing.JOptionPane;
 
-/**
- *
- * @author Agustin
- */
+
 public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
     private JMMV_Cliente cliente;
@@ -155,7 +148,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         tfTelefono.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         lbTelefono.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        lbTelefono.setText("RUN");
+        lbTelefono.setText("Telefono");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -215,6 +208,19 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
             .addGroup(jPanel1Layout.createSequentialGroup()
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(146, 146, 146)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addGap(170, 170, 170)
+                                .addComponent(btnHome))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnModificar)
+                                .addGap(21, 21, 21)
+                                .addComponent(btnEliminar)
+                                .addGap(18, 18, 18)
+                                .addComponent(btnListar)
+                                .addGap(92, 92, 92))))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
@@ -249,28 +255,17 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                                     .addComponent(tfUser, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                                     .addComponent(pfPass, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                        .addGap(18, 18, 18)
-                        .addComponent(lbRun, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfRun, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(146, 146, 146)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(lbTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                    .addGap(170, 170, 170)
-                                    .addComponent(btnHome))
-                                .addGroup(jPanel1Layout.createSequentialGroup()
-                                    .addComponent(btnModificar)
-                                    .addGap(21, 21, 21)
-                                    .addComponent(btnEliminar)
-                                    .addGap(18, 18, 18)
-                                    .addComponent(btnListar)
-                                    .addGap(92, 92, 92))))
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(tfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(42, 42, 42)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbRun, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfRun, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addComponent(lbTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(tfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                .addGap(54, 54, 54)
                 .addComponent(btnCrear)
                 .addContainerGap(28, Short.MAX_VALUE))
         );
@@ -315,10 +310,13 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
             buscador.setTitle("Buscar Usuario");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
-            buscador.setVisible(true);
-            this.dispose();  
+            buscador.setVisible(true); 
         } else {
-            JMMV_Confirmacion
+            JMMV_Confirmacion confirmar = new JMMV_Confirmacion(this, true, cliente);
+            confirmar.setTitle("Confirmar eliminación");
+            confirmar.setLocationRelativeTo(null);
+            confirmar.setResizable(false);
+            confirmar.setVisible(true);
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 

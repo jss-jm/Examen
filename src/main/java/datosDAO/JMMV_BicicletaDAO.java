@@ -192,5 +192,22 @@ public class JMMV_BicicletaDAO {
         }
         return -1; //retorna valor no válido
     }
+    
+    public List<String> JMMV_ObtenerTipos() {
+        List<String> tipos = new ArrayList<>();
+        String sql = "SELECT JMMV_tipos_bicicleta_nombre AS tipo\n"
+                + "FROM JMMV_tipos_bicicletas";
+        try (Connection conn = conexion.JMMV_Conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                tipos.add(rs.getString("tipo"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return tipos;
+
+        
+    }
 
 }

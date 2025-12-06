@@ -4,18 +4,28 @@
  */
 package GUI;
 
+import datosDAO.JMMV_BicicletaDAO;
+import java.util.List;
+import logica.JMMV_Bicicleta;
+
 /**
  *
  * @author Agustin
  */
 public class JMMV_GestionBicicleta extends javax.swing.JFrame {
 
-    /**
-     * Creates new form JMMV_Gestion
-     */
+    private JMMV_Bicicleta bicicleta;
     public JMMV_GestionBicicleta() {
         initComponents();
+        this.bicicleta = null;
     }
+
+    public JMMV_GestionBicicleta(JMMV_Bicicleta bicicleta) {
+        initComponents();
+        this.bicicleta = bicicleta;
+        
+    }
+
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -35,9 +45,9 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         lbDisponibilidad = new javax.swing.JLabel();
         chBoxDisponible = new javax.swing.JCheckBox();
         btnCrear = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
-        jButton2 = new javax.swing.JButton();
-        jButton3 = new javax.swing.JButton();
+        btnModificar = new javax.swing.JButton();
+        btnEliminar = new javax.swing.JButton();
+        btnListar = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -59,7 +69,6 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         lbNombre.setText("Nombre");
 
         cBoxTipos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        cBoxTipos.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
 
         lbDisponibilidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbDisponibilidad.setText("Disponibilidad:");
@@ -70,14 +79,24 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         btnCrear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCrear.setText("Crear");
 
-        jButton1.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton1.setText("Modificar");
+        btnModificar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnModificar.setText("Modificar");
+        btnModificar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModificarActionPerformed(evt);
+            }
+        });
 
-        jButton2.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton2.setText("Eliminar");
+        btnEliminar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnEliminar.setText("Eliminar");
+        btnEliminar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnEliminarActionPerformed(evt);
+            }
+        });
 
-        jButton3.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
-        jButton3.setText("Listar");
+        btnListar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnListar.setText("Listar");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -104,9 +123,9 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                             .addComponent(lbTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jButton2, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton3, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(jButton1, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(31, 31, 31))))
         );
         jPanel1Layout.setVerticalGroup(
@@ -115,11 +134,11 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                 .addContainerGap(70, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(jButton1)
+                        .addComponent(btnModificar)
                         .addGap(21, 21, 21)
-                        .addComponent(jButton2)
+                        .addComponent(btnEliminar)
                         .addGap(18, 18, 18)
-                        .addComponent(jButton3))
+                        .addComponent(btnListar))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
@@ -167,19 +186,50 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnHomeActionPerformed
 
-    /**
-     * @param args the command line arguments
-     */
+    private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
+        if(bicicleta == null) {
+            JMMV_Buscador buscador = new JMMV_Buscador(this,true,1);
+            buscador.setTitle("Buscar Usuario");
+            buscador.setLocationRelativeTo(null);
+            buscador.setResizable(false);
+            buscador.setVisible(true); 
+        } else {
+            JMMV_Confirmacion confirmar = new JMMV_Confirmacion(this, true, bicicleta);
+            confirmar.setTitle("Confirmar eliminación");
+            confirmar.setLocationRelativeTo(null);
+            confirmar.setResizable(false);
+            confirmar.setVisible(true);
+        }
+                             
+    }//GEN-LAST:event_btnEliminarActionPerformed
+
+    private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
+            JMMV_Buscador buscador = new JMMV_Buscador(this,true,0);
+            buscador.setTitle("Buscar Bicicleta");
+            buscador.setLocationRelativeTo(null);
+            buscador.setResizable(false);
+            buscador.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnModificarActionPerformed
+
+    private void CargarTipos() {
+        JMMV_BicicletaDAO bicicletaDAO = new JMMV_BicicletaDAO();
+        List<String> tipos = bicicletaDAO.JMMV_ObtenerTipos();
+
+        for (String tipo : tipos) {
+            cBoxTipos.addItem(tipo);
+        }
+    }
  
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrear;
+    private javax.swing.JButton btnEliminar;
     private javax.swing.JButton btnHome;
+    private javax.swing.JButton btnListar;
+    private javax.swing.JButton btnModificar;
     private javax.swing.JComboBox<String> cBoxTipos;
     private javax.swing.JCheckBox chBoxDisponible;
-    private javax.swing.JButton jButton1;
-    private javax.swing.JButton jButton2;
-    private javax.swing.JButton jButton3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JLabel lbDisponibilidad;
     private javax.swing.JLabel lbNombre;

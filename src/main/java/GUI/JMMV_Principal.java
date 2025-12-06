@@ -124,7 +124,7 @@ public class JMMV_Principal extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnUsuariosActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnUsuariosActionPerformed
-        JMMV_GestionUsuarios gestionUsuarios = new JMMV_GestionUsuarios(this, true);
+        JMMV_GestionUsuarios gestionUsuarios = new JMMV_GestionUsuarios();
         gestionUsuarios.setTitle("Gestion Usuarios");
         gestionUsuarios.setLocationRelativeTo(null);
         gestionUsuarios.setResizable(false);
