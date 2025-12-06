@@ -152,9 +152,33 @@ public class JMMV_BicicletaDAO {
 
     }
 
+    //uso POSIBLE
+    public boolean JMMV_CambiarDisponibilidadBicicleta(int idBicicleta){
+        
+        String sql = "UPDATE JMMV_bicicletas\n"
+                + "SET JMMV_bicicletas_esta_disponible = NOT JMMV_bicicletas_esta_disponible\n"
+                + "WHERE JMMV_bicicletas_id_bicicleta = ?";
+
+        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idBicicleta);
+
+            pstmt.executeUpdate();
+
+            return true;
+
+        } catch (SQLException e) {
+
+            e.printStackTrace();
+
+            return false;
+        }
+        
+    }
+    //recibe id de TIPO de bicicleta, retorna el nombre del tipo
     public String ObtenerTipoBicicletaPorId(int idBicicleta) {
 
-        String sql = "SELECT t.JMMV_tipos_bicicletas_nombre AS tipo\n"
+        String sql = "SELECT t.JMMV_tipos_bicicletas_nombre AS nombre_tipo\n"
                 + "FROM JMMV_tipos_bicicletas t\n"
                 + "WHERE t.JMMV_tipos_bicicletas_id_tipo_bicicleta = ?";
 
@@ -165,7 +189,7 @@ public class JMMV_BicicletaDAO {
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getString("tipo");
+                return rs.getString("nombre_tipo");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -174,18 +198,18 @@ public class JMMV_BicicletaDAO {
 
     }
 
-    public int JMMV_ObtenerIdBicicletaPorNombre(String idBicicleta) {
-        String sql = "SELECT t.JMMV_tipos_bicicletas_id_tipo_bicicleta AS tipo\n"
-                + "FROM JMMV_tipos_bicicletas t\n"
-                + "WHERE t.JMMV_tipos_bicicletas_nombre = ?";
+    public int JMMV_ObtenerIdBicicletaPorNombre(String nombreBicicleta) {
+        String sql = "SELECT b.JMMV_bicicletas_id_bicicleta AS id_bicicleta\n"
+                + "FROM JMMV_bicicletas b\n"
+                + "WHERE b.JMMV_bicicletas_nombre = ?";
 
         try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
-            pstmt.setString(1, idBicicleta);
+            pstmt.setString(1, nombreBicicleta);
             ResultSet rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                return rs.getInt("id_tipo");
+                return rs.getInt("id_bicicleta");
             }
         } catch (SQLException e) {
             e.printStackTrace();
@@ -193,14 +217,57 @@ public class JMMV_BicicletaDAO {
         return -1; //retorna valor no válido
     }
     
-    public List<String> JMMV_ObtenerTipos() {
+    public String JMMV_ObtenerNombreBicicletaPorId(int idBicicleta) {
+        String sql = "SELECT b.JMMV_bicicletas_nombre AS nombre_bicicleta\n"
+                + "FROM JMMV_bicicletas b\n"
+                + "WHERE b.JMMV_bicicletas_id_bicicleta = ?";
+
+        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setInt(1, idBicicleta);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getString("nombre_bicicleta");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        
+        return null;
+    }
+    
+    //recibe nombre de TIPO de bicicleta, retorna el id del tipo
+    public int JMMV_ObtenerIdTipoNombre(String tipoBicicleta) {
+        String sql = "SELECT t.JMMV_tipos_bicicletas_id_tipo_bicicleta AS nombre_tipo\n"
+                + "FROM JMMV_tipos_bicicletas t\n"
+                + "WHERE t.JMMV_tipos_bicicletas_nombre = ?";
+
+        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, tipoBicicleta);
+            ResultSet rs = pstmt.executeQuery();
+
+            if (rs.next()) {
+                return rs.getInt("nombre_tipo");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1; //retorna valor no válido
+    }
+    
+    //para combobox, todos los tipos de bicicletas activos, ordenados
+    public List<String> JMMV_ObtenerTiposDeBicicletaActivos() {
         List<String> tipos = new ArrayList<>();
-        String sql = "SELECT JMMV_tipos_bicicleta_nombre AS tipo\n"
-                + "FROM JMMV_tipos_bicicletas";
+        String sql = "SELECT t.JMMV_tipos_bicicletas_nombre AS tipo_bicicleta\n"
+                + "FROM JMMV_tipos_bicicletas t\n"
+                + "WHERE t.JMMV_tipos_bicicletas_esta_activo = true\n"
+                + "ORDER BY t.JMMV_tipos_bicicletas_nombre ASC";
         try (Connection conn = conexion.JMMV_Conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
-                tipos.add(rs.getString("tipo"));
+                tipos.add(rs.getString("tipo_bicicleta"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
