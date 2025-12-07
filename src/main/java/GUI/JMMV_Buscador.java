@@ -18,7 +18,7 @@ import logica.JMMV_Cliente;
 public class JMMV_Buscador extends javax.swing.JDialog {
 
     private int seleccion;
-    private JMMV_ClienteDAO clienteDAO;
+    JMMV_ClienteDAO clienteDAO  = new JMMV_ClienteDAO();
     private JMMV_BicicletaDAO BicicletaDAO;
     private JMMV_ReservaDAO ReservaDAO;
     public JMMV_Buscador(java.awt.Frame parent, boolean modal,int seleccion) {
@@ -29,7 +29,7 @@ public class JMMV_Buscador extends javax.swing.JDialog {
             case 1 -> {lbBuscar.setText("Buscar Cliente por nombre:"); this.seleccion = seleccion;}
             case 2 -> {lbBuscar.setText("Buscar Reserva por nombre de cliente;"); this.seleccion = seleccion;}
             default -> {
-                JOptionPane.showMessageDialog(this,"Error de inicialización", "ERROR DE SELECCION", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null,"Error de inicialización", "ERROR DE SELECCION", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -48,7 +48,7 @@ public class JMMV_Buscador extends javax.swing.JDialog {
         tfBuscar = new javax.swing.JTextField();
         btnBuscar = new javax.swing.JButton();
 
-        setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         lbBuscar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbBuscar.setText("Buscar \"algo\" por nombre:");
@@ -110,7 +110,7 @@ public class JMMV_Buscador extends javax.swing.JDialog {
         if(seleccion == 0) {
             //
         } else if (seleccion == 1) {
-            List <JMMV_Cliente> cliente = clienteDAO.JMMV_ObtenerClientePorNombre(tfBuscar.getText().toUpperCase());
+            List <JMMV_Cliente> cliente = clienteDAO.JMMV_ObtenerClientePorNombre(tfBuscar.getText().toLowerCase());
             if(cliente.isEmpty()) {
                 JOptionPane.showMessageDialog(this, "No se encontro al cliente, intente nuevamente", "CLIENTE NO ENCONTRADO", JOptionPane.ERROR_MESSAGE);
             } else {
@@ -120,9 +120,19 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                     System.out.println("Cliente encontrado");
                     JMMV_Confirmacion confirmar = new JMMV_Confirmacion(null, true, clienteRun.get(0));
                     this.dispose();
-                } else {
+                } else if (cliente.size() == 1) {
+                    JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
+                    gestionUser.setTitle("Gestión Clientes");
+                    gestionUser.setLocationRelativeTo(null);
+                    gestionUser.setResizable(false);
+                    gestionUser.setVisible(true);
+                    this.dispose();
+
+                }
+                    else {
                     System.out.println("Cliente encontrado");
                     JMMV_Confirmacion confirmar = new JMMV_Confirmacion(null, true, cliente.get(0));
+                    this.dispose();
                 } 
             }
         }

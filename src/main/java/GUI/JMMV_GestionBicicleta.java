@@ -1,28 +1,29 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
- */
+
 package GUI;
 
-import DAO.JMMV_BicicletaDAO;
+
+import controlador.JMMV_Controlador;
 import java.util.List;
 import logica.JMMV_Bicicleta;
 
-/**
- *
- * @author Agustin
- */
+
 public class JMMV_GestionBicicleta extends javax.swing.JFrame {
 
     private JMMV_Bicicleta bicicleta;
+    JMMV_Controlador controlador = new JMMV_Controlador();
     public JMMV_GestionBicicleta() {
         initComponents();
+        CargarTipos();
         this.bicicleta = null;
     }
 
     public JMMV_GestionBicicleta(JMMV_Bicicleta bicicleta) {
         initComponents();
+        CargarTipos();
         this.bicicleta = bicicleta;
+        tfNombre.setText(bicicleta.getJMMV_Bicicleta_nombre());
+        cBoxTipos.setSelectedItem(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
+        chBoxDisponible.setSelected(bicicleta.isJMMV_Bicicleta_estaDisponible());
         
     }
 
@@ -41,17 +42,17 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         lbTipo = new javax.swing.JLabel();
         tfNombre = new javax.swing.JTextField();
         lbNombre = new javax.swing.JLabel();
-        cBoxTipos = new javax.swing.JComboBox<>();
         lbDisponibilidad = new javax.swing.JLabel();
         chBoxDisponible = new javax.swing.JCheckBox();
         btnCrear = new javax.swing.JButton();
         btnModificar = new javax.swing.JButton();
         btnEliminar = new javax.swing.JButton();
         btnListar = new javax.swing.JButton();
+        cBoxTipos = new javax.swing.JComboBox<>();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/static/home_50dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        btnHome.setIcon(new javax.swing.ImageIcon("C:\\Users\\Agustin\\OneDrive\\Escritorio\\examen_max\\src\\static\\home_50dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png")); // NOI18N
         btnHome.setText("Inicio");
         btnHome.setToolTipText("");
         btnHome.addActionListener(new java.awt.event.ActionListener() {
@@ -67,8 +68,6 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
 
         lbNombre.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbNombre.setText("Nombre");
-
-        cBoxTipos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
         lbDisponibilidad.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbDisponibilidad.setText("Disponibilidad:");
@@ -98,6 +97,8 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         btnListar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnListar.setText("Listar");
 
+        cBoxTipos.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
         jPanel1Layout.setHorizontalGroup(
@@ -117,10 +118,10 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                         .addComponent(btnHome)
                         .addGap(44, 44, 44)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(cBoxTipos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(lbNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                             .addComponent(tfNombre)
-                            .addComponent(lbTipo, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addComponent(lbTipo, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                            .addComponent(cBoxTipos, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -151,7 +152,7 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                                 .addGap(16, 16, 16)
                                 .addComponent(lbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cBoxTipos, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(cBoxTipos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(51, 51, 51)))
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(lbDisponibilidad)
@@ -213,8 +214,8 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void CargarTipos() {
-        JMMV_BicicletaDAO bicicletaDAO = new JMMV_BicicletaDAO();
-        List<String> tipos = bicicletaDAO.JMMV_ObtenerTipos();
+        
+        List<String> tipos = controlador.JMMV_ObtenerTiposDeBicicletaActivos();
 
         for (String tipo : tipos) {
             cBoxTipos.addItem(tipo);

@@ -18,7 +18,7 @@ public class JMMV_Cliente {
     private String JMMV_Cliente_calle;
     private int JMMV_Cliente_numCalle;
     private int JMMV_Cliente_telefono;
-    private boolean JMMV_Cliente_estaActivo;
+    private boolean JMMV_Cliente_estaActivo = true;
     private String JMMV_Cliente_nombreCompleto;
 
     public JMMV_Cliente(int JMMV_Cliente_idUsuario,int JMMV_Cliente_idCliente, String JMMV_Cliente_nomUsuario, String JMMV_Cliente_contrasena, String JMMV_Cliente_correo, int JMMV_Cliente_rol, int JMMV_Cliente_run, String JMMV_Cliente_nombres, String JMMV_Cliente_apellidoPaterno, String JMMV_Cliente_apellidoMaterno, String JMMV_Cliente_comuna, String JMMV_Cliente_calle, int JMMV_Cliente_numCalle, int JMMV_Cliente_telefono, boolean JMMV_Cliente_estaActivo) {

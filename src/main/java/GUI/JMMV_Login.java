@@ -2,6 +2,7 @@
 package GUI;
 
 import DAO.JMMV_UsuarioDAO;
+import controlador.JMMV_Controlador;
 import java.sql.SQLException;
 import java.util.List;
 import java.util.logging.Level;
@@ -137,23 +138,23 @@ public class JMMV_Login extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        JMMV_UsuarioDAO conector = new JMMV_UsuarioDAO();
+        JMMV_Controlador controlador = new JMMV_Controlador();
         String nombreUsuario = tfUsuario.getText();
         String pass = new String(pfPass.getPassword());
-        List<String> usuario;
+        String usuario;
         try {
-            usuario = conector.JMMV_VerificarLogin(nombreUsuario, pass);
-            if(usuario != null ){
-            JMMV_Principal ventanaPrincipal  = new JMMV_Principal();
-            ventanaPrincipal.setTitle("Menu");
-            ventanaPrincipal.setLocationRelativeTo(null);
-            ventanaPrincipal.setResizable(false);
-            ventanaPrincipal.setVisible(true);
-            this.dispose();
-        } else{
-            JOptionPane.showMessageDialog(null, "Fallo de validación intente nuevamente", "ERROR DE VALIDACIÓN", JOptionPane.ERROR_MESSAGE);
-        }
-            
+            usuario = controlador.JMMV_VerificarLogin(nombreUsuario, pass);
+            if (usuario != null) {
+                JMMV_Principal ventanaPrincipal = new JMMV_Principal();
+                ventanaPrincipal.setTitle("Menu");
+                ventanaPrincipal.setLocationRelativeTo(null);
+                ventanaPrincipal.setResizable(false);
+                ventanaPrincipal.setVisible(true);
+                this.dispose();
+            } else {
+                JOptionPane.showMessageDialog(null, "Fallo de validación intente nuevamente", "ERROR DE VALIDACIÓN", JOptionPane.ERROR_MESSAGE);
+            }
+
         } catch (SQLException ex) {
             Logger.getLogger(JMMV_Login.class.getName()).log(Level.SEVERE, null, ex);
         }

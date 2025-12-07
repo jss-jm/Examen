@@ -23,9 +23,9 @@ public class JMMV_Controlador {
     }
     
     //login
-    public List<String> JMMV_VerificarLogin(String user, String pass) throws SQLException {
+    public String JMMV_VerificarLogin(String user, String pass) throws SQLException {
 
-        List<String> usuario = usuarioDAO.JMMV_VerificarLogin(user, pass);
+        String usuario = usuarioDAO.JMMV_VerificarLogin(user, pass);
         
         return usuario;
                 
@@ -77,6 +77,7 @@ public class JMMV_Controlador {
     public List<String> JMMV_ObtenerComunasActivas() {
         
         List<String> comunas = clienteDAO.JMMV_ObtenerComunasActivas();
+        System.out.println(comunas.size());
         
         return comunas;
         

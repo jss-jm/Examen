@@ -2,16 +2,20 @@
 package GUI;
 
 import logica.JMMV_Cliente;
-import DAO.JMMV_ClienteDAO;
+import controlador.JMMV_Controlador;
 import java.util.List;
+import javax.swing.JOptionPane;
 
 
 public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
     private JMMV_Cliente cliente;
+    private JMMV_Controlador controlador = new JMMV_Controlador();
     public JMMV_GestionUsuarios() {
         initComponents();
+        CargarComunas();
         this.cliente = null;
+        
     }
     
     public JMMV_GestionUsuarios(JMMV_Cliente cliente) {
@@ -28,6 +32,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         pfPass.setText(cliente.getJMMV_Cliente_contrasena());
         tfRun.setText(String.valueOf(cliente.getJMMV_Cliente_run()));
         tfTelefono.setText(String.valueOf(cliente.getJMMV_Cliente_telefono()));
+        tfCorreo.setText(cliente.getJMMV_Cliente_correo());
         btnModificar.setVisible(false);
         btnCrear.setText("Modificar");
     }
@@ -66,10 +71,12 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         lbRun = new javax.swing.JLabel();
         tfTelefono = new javax.swing.JTextField();
         lbTelefono = new javax.swing.JLabel();
+        tfCorreo = new javax.swing.JTextField();
+        lbCorreo = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
-        btnHome.setIcon(new javax.swing.ImageIcon(getClass().getResource("/static/home_50dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png"))); // NOI18N
+        btnHome.setIcon(new javax.swing.ImageIcon("C:\\Users\\Agustin\\OneDrive\\Escritorio\\examen_max\\src\\static\\home_50dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png")); // NOI18N
         btnHome.setText("Inicio");
         btnHome.setToolTipText("");
         btnHome.addActionListener(new java.awt.event.ActionListener() {
@@ -88,6 +95,11 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
         btnCrear.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnCrear.setText("Crear");
+        btnCrear.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearActionPerformed(evt);
+            }
+        });
 
         btnModificar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnModificar.setText("Modificar");
@@ -141,6 +153,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         lbApellidoM.setText("Apellido Materno");
 
         tfRun.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        tfRun.setToolTipText("Ingresar RUN sin puntos ni guion. Si su rut termina en K, reemplazelo con un 0. ");
 
         lbRun.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbRun.setText("RUN");
@@ -149,6 +162,11 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
         lbTelefono.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         lbTelefono.setText("Telefono");
+
+        tfCorreo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+
+        lbCorreo.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        lbCorreo.setText("Correo");
 
         javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
         jPanel1.setLayout(jPanel1Layout);
@@ -159,49 +177,54 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbRun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfRun, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addComponent(lbCorreo, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(tfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGap(68, 68, 68)
+                        .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                            .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                    .addComponent(lbRun, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tfRun, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addGap(18, 18, 18)
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                    .addComponent(lbApellidoM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tfApellidoM)
-                                    .addComponent(lbApellidoP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(tfApellidoP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addComponent(lbUser, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
-                                .addComponent(tfUser, javax.swing.GroupLayout.Alignment.TRAILING)))
-                        .addGap(18, 18, 18)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(lbNomCalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfNomCalle)
-                            .addComponent(cBoxComunas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbComuna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lbPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(pfPass)
-                            .addComponent(lbNumCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(tfNumCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addComponent(btnListar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnHome)
-                        .addGap(37, 37, 37)))
-                .addGap(29, 29, 29))
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(316, 316, 316)
-                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
+                                    .addComponent(lbTelefono, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lbNombre, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                            .addComponent(lbApellidoM, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(tfApellidoM)
+                                            .addComponent(lbApellidoP, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                            .addComponent(tfApellidoP, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                        .addComponent(lbUser, javax.swing.GroupLayout.DEFAULT_SIZE, 225, Short.MAX_VALUE)
+                                        .addComponent(tfUser, javax.swing.GroupLayout.Alignment.TRAILING)))
+                                .addGap(18, 18, 18)
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(lbNomCalle, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tfNomCalle)
+                                    .addComponent(cBoxComunas, 0, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbComuna, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(lbPass, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(pfPass)
+                                    .addComponent(lbNumCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                    .addComponent(tfNumCalle, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 225, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 48, Short.MAX_VALUE)
+                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(btnListar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnEliminar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnModificar, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnHome)
+                                .addGap(37, 37, 37)))
+                        .addGap(29, 29, 29))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -265,9 +288,17 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                                 .addComponent(lbTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                 .addComponent(tfTelefono, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))))
-                .addGap(54, 54, 54)
-                .addComponent(btnCrear)
-                .addContainerGap(28, Short.MAX_VALUE))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(btnCrear)
+                        .addGap(40, 40, 40))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(lbCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfCorreo, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(38, Short.MAX_VALUE))))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -320,9 +351,88 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
+    private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
+        String nombres = tfNombre.getText();
+        String apellidoP = tfApellidoP.getText();
+        String apellidoM = tfApellidoM.getText();
+        String user = tfUser.getText();
+        String run = tfRun.getText();
+        String correo = tfCorreo.getText();
+        String nomCalle = tfNomCalle.getText();
+        String numCalle = tfNumCalle.getText();
+        String comuna = (String)cBoxComunas.getSelectedItem();
+        String pass = new String(pfPass.getPassword());
+        String telefono = tfTelefono.getText();
+        
+        if (nombres.isEmpty() || apellidoP.isEmpty() || apellidoM.isEmpty() ||
+            user.isEmpty() || run.isEmpty() || correo.isEmpty() ||
+            nomCalle.isEmpty() || numCalle.isEmpty() || comuna.isEmpty() ||
+            pass.isEmpty() || telefono.isEmpty()) {
+            
+             JOptionPane.showMessageDialog(
+                    this,
+                    "Todos los campos son obligatorios.",
+                    "Campos vacios",
+                    JOptionPane.ERROR_MESSAGE
+            );
+
+            return;
+        }
+        
+        try {
+            int runConv = Integer.parseInt(run);
+            int numCalleConv = Integer.parseInt(numCalle);
+            int telefonoConv = Integer.parseInt(telefono);
+            
+            if (runConv < 10000000 || numCalleConv <= 0 || telefonoConv <= 900000000) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "El RUN, número de calle o teléfono contiene valores inválidos.",
+                        "Valores invalidos",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            }
+            
+            if (cliente == null) {
+                cliente = new JMMV_Cliente(user, pass, correo, runConv, nombres, apellidoP, apellidoM, comuna, nomCalle, numCalleConv, telefonoConv);
+                controlador.JMMV_AgregarCliente(cliente);
+                JOptionPane.showMessageDialog(this, "Usuario agregado con éxito", "Usuario Agregado", JOptionPane.INFORMATION_MESSAGE);
+            } else {
+                cliente.setJMMV_Cliente_nombres(nombres);
+                cliente.setJMMV_Cliente_apellidoPaterno(apellidoP);
+                cliente.setJMMV_Cliente_apellidoMaterno(apellidoM);
+                cliente.setJMMV_Cliente_nomUsuario(user);
+                cliente.setJMMV_Cliente_run(runConv);
+                cliente.setJMMV_Cliente_correo(correo);
+                cliente.setJMMV_Cliente_calle(nomCalle);
+                cliente.setJMMV_Cliente_numCalle(numCalleConv);
+                cliente.setJMMV_Cliente_comuna(comuna);
+                cliente.setJMMV_Cliente_contrasena(pass);
+                cliente.setJMMV_Cliente_telefono(telefonoConv);
+                controlador.JMMV_ActualizarCliente(cliente);
+                JOptionPane.showMessageDialog(this, "Usuario actualizado con éxito", "Usuario Actualizado", JOptionPane.INFORMATION_MESSAGE);
+                
+            }
+            
+            
+            
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(
+                        this,
+                        "El RUN, número de calle o teléfono contiene valores inválidos.",
+                        "Valores invalidos",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+        }
+            
+        
+    }//GEN-LAST:event_btnCrearActionPerformed
+
     private void CargarComunas() {
-        JMMV_ClienteDAO clienteDAO = new JMMV_ClienteDAO();
-        List<String> comunas = clienteDAO.JMMV_ObtenerComunas();
+        
+        List<String> comunas = controlador.JMMV_ObtenerComunasActivas();
 
         for (String comuna : comunas) {
             cBoxComunas.addItem(comuna);
@@ -341,6 +451,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
     private javax.swing.JLabel lbApellidoM;
     private javax.swing.JLabel lbApellidoP;
     private javax.swing.JLabel lbComuna;
+    private javax.swing.JLabel lbCorreo;
     private javax.swing.JLabel lbNomCalle;
     private javax.swing.JLabel lbNombre;
     private javax.swing.JLabel lbNumCalle;
@@ -351,6 +462,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
     private javax.swing.JPasswordField pfPass;
     private javax.swing.JTextField tfApellidoM;
     private javax.swing.JTextField tfApellidoP;
+    private javax.swing.JTextField tfCorreo;
     private javax.swing.JTextField tfNomCalle;
     private javax.swing.JTextField tfNombre;
     private javax.swing.JTextField tfNumCalle;

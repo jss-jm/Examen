@@ -304,17 +304,18 @@ public class JMMV_BicicletaDAO {
         
         List<String> listaTiposBicicletas = new ArrayList<>();
         
-        String sql = "SELECT t.JMMV_tipos_bicicletas_nombre AS tipo_bicicleta"
-                + "FROM JMMV_tipos_bicicletas t"
-                + "WHERE t.JMMV_tipos_bicicletas_esta_activo = true"
+        String sql = "SELECT t.JMMV_tipos_bicicletas_nombre AS tipo_bicicleta "
+                + "FROM JMMV_tipos_bicicletas t "
+                + "WHERE t.JMMV_tipos_bicicletas_esta_activo = true "
                 + "ORDER BY t.JMMV_tipos_bicicletas_nombre ASC";
         
         try (Connection conn = conexion.JMMV_Conectar(); 
                 Statement stmt = conn.createStatement(); 
                 ResultSet rs = stmt.executeQuery(sql)) {
 
-            if (rs.next()) {
+            while (rs.next()) {
                 listaTiposBicicletas.add(rs.getString("tipo_bicicleta"));
+                System.out.println(listaTiposBicicletas.size());
             }
         } catch (SQLException e) {
             e.printStackTrace();
