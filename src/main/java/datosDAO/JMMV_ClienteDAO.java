@@ -248,6 +248,46 @@ public class JMMV_ClienteDAO {
 
     }
 
+    //obtener cliente por primer nombre y apellido paterno. Utiliza LIKE para primero nombre aproximado al final.
+    public List<JMMV_Cliente> JMMV_BuscarCliente (String nombres, String apellidoPaterno){
+        
+            List<JMMV_Cliente> listaClientes = new ArrayList<>();
+
+        String nombreBuscadoSQL = nombres + "%";
+
+        String sql = "SELECT "
+                + "c.JMMV_clientes_id_cliente AS id, "
+                + "c.JMMV_clientes_run AS run, "
+                + "CONCAT(c.JMMV_clientes_nombres, ' ' ,c.JMMV_clientes_apellido_paterno, ' ' , c.JMMV_clientes_apellido_materno) AS nombre_cliente"
+                + "FROM JMMV_clientes c\n"
+                + "WHERE c.JMMV_clientes_esta_activo = TRUE AND c.JMMV_clientes_nombres LIKE ? AND c.JMMV_clientes_apellido_paterno = ?"
+                + "ORDER BY c.JMMV_clientes_id_cliente ASC";
+
+        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+
+            pstmt.setString(1, nombreBuscadoSQL);
+            pstmt.setString(2, apellidoPaterno);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    int idCliente = rs.getInt("id");
+                    int rut = rs.getInt("rut");
+                    String nombreCompleto = rs.getString("nombre_completo");
+
+                    JMMV_Cliente cliente = new JMMV_Cliente(idCliente, rut, nombreCompleto);
+
+                    listaClientes.add(cliente);
+                }
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+
+        return listaClientes;
+
+    }
     //métodos auxiliares
     //obtener id de comuna por su nombre
     public int JMMV_ObtenerIdComunaPorNombre(String nombreIDComuna) {
@@ -339,10 +379,13 @@ public class JMMV_ClienteDAO {
         return -1; //retorna valor no válido
     }
     
-    public List<String> JMMV_ObtenerComunas() {
+    //para combobox
+    public List<String> JMMV_ObtenerComunasActivas() {
         List<String> comunas = new ArrayList<>();
-        String sql = "SELECT JMMV_comunas_nombre AS comuna\n"
-                + "FROM JMMV_comunas\n";
+        String sql = "SELECT c.JMMV_comunas_nombre AS comuna\n"
+                + "FROM JMMV_comunas c\n"
+                + "WHERE c.JMMV_comunas_esta_activo = true\n"
+                + "ORDER BY JMMV_comunas_nombre ASC";
         try (Connection conn = conexion.JMMV_Conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
