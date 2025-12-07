@@ -22,24 +22,26 @@ public class JMMV_ReservaDAO {
 
         List<JMMV_Reserva> listaReservas = new ArrayList<>();
 
-        String sql = "SELECT \n"
-                + "r.JMMV_reservas_id_reserva AS id,\n"
-                + "r.JMMV_reservas_id_cliente AS id_cliente,\n"
-                + "c.JMMV_clientes_nombres AS nombre, \n"
-                + "c.JMMV_clientes_apellido_paterno AS ap_pat,\n"
-                + "c.JMMV_clientes_apellido_materno AS ap_mat,\n"
+        String sql = "SELECT "
+                + "r.JMMV_reservas_id_reserva AS id,"
+                + "r.JMMV_reservas_id_cliente AS id_cliente,"
+                + "c.JMMV_clientes_nombres AS nombre_cliente, "
+                + "c.JMMV_clientes_apellido_paterno AS ap_pat,"
+                + "c.JMMV_clientes_apellido_materno AS ap_mat,"
                 + "CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',JMMV_clientes_apellido_materno) AS nombre_cliente,\n"
-                + "r.JMMV_reservas_id_bicicleta AS id_bicicleta,\n"
-                + "b.JMMV_bicicletas_nombre AS nombre_bicicleta,\n"
-                + "r.JMMV_reservas_fecha_inicio AS fecha_inicio,\n"
-                + "r.JMMV_reservas_fecha_fin AS fecha_fin\n"
-                + "FROM JMMV_reservas r\n"
-                + "JOIN JMMV_clientes c ON r.JMMV_reservas_id_cliente = c.JMMV_clientes_id_cliente\n"
-                + "JOIN JMMV_bicicletas b ON r.JMMV_reservas_id_bicicleta = b.JMMV_bicicletas_id_bicicleta\n"
-                + "WHERE r.JMMV_reservas_esta_activo = TRUE\n"
+                + "r.JMMV_reservas_id_bicicleta AS id_bicicleta,"
+                + "b.JMMV_bicicletas_nombre AS nombre_bicicleta,"
+                + "r.JMMV_reservas_fecha_inicio AS fecha_inicio,"
+                + "r.JMMV_reservas_fecha_fin AS fecha_fin"
+                + "FROM JMMV_reservas r"
+                + "JOIN JMMV_clientes c ON r.JMMV_reservas_id_cliente = c.JMMV_clientes_id_cliente"
+                + "JOIN JMMV_bicicletas b ON r.JMMV_reservas_id_bicicleta = b.JMMV_bicicletas_id_bicicleta"
+                + "WHERE r.JMMV_reservas_esta_activo = TRUE"
                 + "ORDER BY r.JMMV_reservas_id_reserva ASC";
 
-        try (Connection conn = conexion.JMMV_Conectar(); Statement stmt = conn.createStatement(); ResultSet rs = stmt.executeQuery(sql)) {
+        try (Connection conn = conexion.JMMV_Conectar(); 
+                Statement stmt = conn.createStatement(); 
+                ResultSet rs = stmt.executeQuery(sql)) {
 
             while (rs.next()) {
 
@@ -65,10 +67,16 @@ public class JMMV_ReservaDAO {
 
     public boolean JMMV_AgregarReserva(JMMV_Reserva reserva) {
 
-        String sql = "INSERT INTO JMMV_reservas (JMMV_reservas_id_cliente, JMMV_reservas_id_bicicleta, JMMV_reservas_fecha_inicio,JMMV_reservas_fecha_fin,JMMV_reservas_esta_activo)\n"
+        String sql = "INSERT INTO JMMV_reservas ("
+                + "JMMV_reservas_id_cliente, "
+                + "JMMV_reservas_id_bicicleta, "
+                + "JMMV_reservas_fecha_inicio,"
+                + "JMMV_reservas_fecha_fin,"
+                + "JMMV_reservas_esta_activo)"
                 + "VALUES(?,?,?,?,?)";
 
-        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conexion.JMMV_Conectar(); 
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             //valores a enviar
             pstmt.setInt(1, reserva.getJMMV_idCliente());
@@ -92,15 +100,16 @@ public class JMMV_ReservaDAO {
     public boolean JMMV_ActualizarReserva(JMMV_Reserva reserva) {
 
         //string sql
-        String sql = "UPDATE JMMV_reservas as r\n"
-                + "SET\n"
-                + "r.JMMV_reservas_id_cliente = ?,\n"
-                + "r.JMMV_reservas_id_bicicleta = ?,\n"
-                + "r.JMMV_reservas_fecha_inicio = ?,\n"
-                + "r.JMMV_reservas_fecha_fin = ?\n"
+        String sql = "UPDATE JMMV_reservas as r"
+                + "SET"
+                + "r.JMMV_reservas_id_cliente = ?,"
+                + "r.JMMV_reservas_id_bicicleta = ?,"
+                + "r.JMMV_reservas_fecha_inicio = ?,"
+                + "r.JMMV_reservas_fecha_fin = ?"
                 + "WHERE r.JMMV_reservas_id_reserva = ?";
 
-        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conexion.JMMV_Conectar(); 
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             //valores
             pstmt.setInt(1, reserva.getJMMV_idCliente());
@@ -122,12 +131,13 @@ public class JMMV_ReservaDAO {
 
     public boolean JMMV_EliminarReserva(int idReserva) {
 
-        String sql = "UPDATE JMMV_reservas\n"
-                + "SET\n"
-                + "JMMV_reservas_esta_activo = FALSE\n"
+        String sql = "UPDATE JMMV_reservas"
+                + "SET"
+                + "JMMV_reservas_esta_activo = FALSE"
                 + "WHERE JMMV_reservas_id_reserva = ?";
 
-        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conexion.JMMV_Conectar(); 
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setInt(1, idReserva);
 
