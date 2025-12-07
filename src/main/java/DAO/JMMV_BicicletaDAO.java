@@ -1,4 +1,4 @@
-package datosDAO;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -134,6 +134,7 @@ public class JMMV_BicicletaDAO {
         return true;
     }
 
+    //eliminar bicicleta por nombre
     public boolean JMMV_EliminarBicicleta(String nombreBicicleta) {
 
         String sql = "UPDATE JMMV_bicicletas"
@@ -253,6 +254,7 @@ public class JMMV_BicicletaDAO {
     
     //recibe nombre de TIPO de bicicleta, retorna el id del tipo
     public int JMMV_ObtenerIdTipoNombre(String tipoBicicleta) {
+        
         String sql = "SELECT t.JMMV_tipos_bicicletas_id_tipo_bicicleta AS nombre_tipo"
                 + "FROM JMMV_tipos_bicicletas t"
                 + "WHERE t.JMMV_tipos_bicicletas_nombre = ?";
@@ -273,25 +275,51 @@ public class JMMV_BicicletaDAO {
         return -1; //retorna valor no válido
     }
     
+    //obtener solo nombres de bicicletas activas
+    public List<String> JMMV_ObtenerNombresBicicletasActivas(){
+        
+        List<String> listaNombresBicicletas = new ArrayList<>();
+
+        String sql = "SELECT b.JMMV_bicicletas_nombre AS nombre"
+                + "FROM JMMV_bicicletas AS b"
+                + "WHERE b.JMMV_bicicletas_esta_activo = TRUE"
+                + "ORDER BY b.JMMV_bicicletas_nombre ASC";
+
+        try (Connection conn = conexion.JMMV_Conectar();
+                Statement stmt = conn.createStatement(); 
+                ResultSet rs = stmt.executeQuery(sql)) {
+
+            if (rs.next()) {
+                listaNombresBicicletas.add(rs.getString("nombre"));
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return listaNombresBicicletas;
+        
+    }
+    
     //para combobox, todos los tipos de bicicletas activos, ordenados
     public List<String> JMMV_ObtenerTiposDeBicicletaActivos() {
-        List<String> tipos = new ArrayList<>();
+        
+        List<String> listaTiposBicicletas = new ArrayList<>();
+        
         String sql = "SELECT t.JMMV_tipos_bicicletas_nombre AS tipo_bicicleta"
                 + "FROM JMMV_tipos_bicicletas t"
                 + "WHERE t.JMMV_tipos_bicicletas_esta_activo = true"
                 + "ORDER BY t.JMMV_tipos_bicicletas_nombre ASC";
+        
         try (Connection conn = conexion.JMMV_Conectar(); 
                 Statement stmt = conn.createStatement(); 
                 ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
-                tipos.add(rs.getString("tipo_bicicleta"));
+                listaTiposBicicletas.add(rs.getString("tipo_bicicleta"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return tipos;
-
+        return listaTiposBicicletas;
         
     }
 

@@ -1,4 +1,4 @@
-package datosDAO;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -183,7 +183,7 @@ public class JMMV_ClienteDAO {
                 + "SET "
                 + "JMMV_usuarios_nom_usuario = ?,"
                 + "JMMV_usuarios_contrasena = ?,"
-                + "JMMV_usuarios_correo = ?'"
+                + "JMMV_usuarios_correo = ?"
                 + "WHERE JMMV_usuarios_id_usuario = ?";
 
         try (Connection conn = conexion.JMMV_Conectar(); 
@@ -278,7 +278,7 @@ public class JMMV_ClienteDAO {
                 + "c.JMMV_clientes_run AS run, "
                 + "CONCAT(c.JMMV_clientes_nombres, ' ' ,c.JMMV_clientes_apellido_paterno, ' ' , c.JMMV_clientes_apellido_materno) AS nombre_cliente"
                 + "FROM JMMV_clientes c"
-                + "WHERE c.JMMV_clientes_esta_activo = TRUE AND c.JMMV_clientes_nombres LIKE ? AND c.JMMV_clientes_apellido_paterno = ?"
+                + "WHERE c.JMMV_clientes_esta_activo = TRUE && c.JMMV_clientes_nombres LIKE ? && c.JMMV_clientes_apellido_paterno = ?"
                 + "ORDER BY c.JMMV_clientes_id_cliente ASC";
 
         try (Connection conn = conexion.JMMV_Conectar(); 
@@ -315,7 +315,8 @@ public class JMMV_ClienteDAO {
                 + "FROM JMMV_comunas"
                 + "WHERE JMMV_comunas_nombre = ?";
 
-        try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
+        try (Connection conn = conexion.JMMV_Conectar(); 
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, nombreComuna);
             ResultSet rs = pstmt.executeQuery();
@@ -406,7 +407,7 @@ public class JMMV_ClienteDAO {
     
     //para combobox
     public List<String> JMMV_ObtenerComunasActivas() {
-        List<String> comunas = new ArrayList<>();
+        List<String> listaComunas = new ArrayList<>();
         String sql = "SELECT "
                 + "c.JMMV_comunas_nombre AS comuna"
                 + "FROM JMMV_comunas c"
@@ -417,12 +418,12 @@ public class JMMV_ClienteDAO {
                 ResultSet rs = stmt.executeQuery(sql)) {
 
             if (rs.next()) {
-                comunas.add(rs.getString("comuna"));
+                listaComunas.add(rs.getString("comuna"));
             }
         } catch (SQLException e) {
             e.printStackTrace();
         }
-        return comunas;
+        return listaComunas;
 
         
     }

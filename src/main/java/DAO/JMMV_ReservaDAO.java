@@ -1,4 +1,4 @@
-package datosDAO;
+package DAO;
 
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -79,10 +79,10 @@ public class JMMV_ReservaDAO {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             //valores a enviar
-            pstmt.setInt(1, reserva.getJMMV_idCliente());
-            pstmt.setInt(2, reserva.getJMMV_idBicicleta());
-            pstmt.setDate(3, java.sql.Date.valueOf(reserva.getJMMV_fechaInicio()));
-            pstmt.setDate(4, java.sql.Date.valueOf(reserva.getJMMV_fechaFin()));
+            pstmt.setInt(1, reserva.getJMMV_Reserva_idCliente());
+            pstmt.setInt(2, reserva.getJMMV_Reserva_idBicicleta());
+            pstmt.setDate(3, java.sql.Date.valueOf(reserva.getJMMV_Reserva_fechaInicio()));
+            pstmt.setDate(4, java.sql.Date.valueOf(reserva.getJMMV_Reserva_fechaFin()));
             pstmt.setBoolean (5, true);
 
             //ejecutar INSERT
@@ -112,11 +112,11 @@ public class JMMV_ReservaDAO {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             //valores
-            pstmt.setInt(1, reserva.getJMMV_idCliente());
-            pstmt.setInt(2, reserva.getJMMV_idBicicleta());
-            pstmt.setDate(3, java.sql.Date.valueOf(reserva.getJMMV_fechaInicio()));
-            pstmt.setDate(4, java.sql.Date.valueOf(reserva.getJMMV_fechaFin()));
-            pstmt.setInt(5, reserva.getJMMV_idReserva());
+            pstmt.setInt(1, reserva.getJMMV_Reserva_idCliente());
+            pstmt.setInt(2, reserva.getJMMV_Reserva_idBicicleta());
+            pstmt.setDate(3, java.sql.Date.valueOf(reserva.getJMMV_Reserva_fechaInicio()));
+            pstmt.setDate(4, java.sql.Date.valueOf(reserva.getJMMV_Reserva_fechaFin()));
+            pstmt.setInt(5, reserva.getJMMV_Reserva_idReserva());
 
             //ejecutar UPDATE
             pstmt.executeUpdate();
