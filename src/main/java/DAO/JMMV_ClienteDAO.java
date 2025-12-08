@@ -39,11 +39,11 @@ public class JMMV_ClienteDAO {
                 + "c.JMMV_clientes_telefono AS telefono, "
                 + "u.JMMV_usuarios_nom_usuario AS nombre_usuario, "
                 + "u.JMMV_usuarios_contrasena AS contrasena, "
-                + "u.JMMV_usuarios_correo AS correo"
-                + "FROM JMMV_clientes c"
-                + "JOIN JMMV_usuarios u ON c.JMMV_clientes_id_usuario = u.JMMV_usuarios_id_usuario"
-                + "JOIN JMMV_comunas co ON c.JMMV_clientes_id_comuna = co.JMMV_comunas_id_comuna"
-                + "WHERE c.JMMV_clientes_esta_activo = TRUE"
+                + "u.JMMV_usuarios_correo AS correo "
+                + "FROM JMMV_clientes c "
+                + "JOIN JMMV_usuarios u ON c.JMMV_clientes_id_usuario = u.JMMV_usuarios_id_usuario "
+                + "JOIN JMMV_comunas co ON c.JMMV_clientes_id_comuna = co.JMMV_comunas_id_comuna "
+                + "WHERE c.JMMV_clientes_esta_activo = TRUE "
                 + "ORDER BY c.JMMV_clientes_id_cliente ASC";
 
         //enviar consulta
