@@ -1,5 +1,6 @@
 package DAO;
 
+import controlador.JMMV_Controlador;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -16,7 +17,7 @@ public class JMMV_ClienteDAO {
 
     //atributo para la conexión a BD
     private JMMV_Conexion conexion;
-
+    
 
     public JMMV_ClienteDAO() {
     
@@ -345,19 +346,18 @@ public class JMMV_ClienteDAO {
         return -1; //retorna valor no válido
     }
 
-    //no corregido, no se está usando
-    //obtener nombre completo de todos los clientes activos
+    
+    //obtener nombre completo de todos los clientes activos, COMBOBOX de reservas
     public List<String> JMMV_ObtenerNombresCompletosClientesActivos() {
 
         List<String> listaNombresCompletos = new ArrayList<>();
 
         //consulta
-        String sql = "SELECT CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',"
-                + "JMMV_clientes_apellido_materno) "
-                + "AS nombre_completo "
-                + "FROM JMMV_clientes c "
+        String sql = "SELECT CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',COALESCE(JMMV_clientes_apellido_materno,''))  "
+                + "AS nombre_completo  "
+                + "FROM JMMV_clientes c  "
                 + "WHERE c.JMMV_clientes_esta_activo = ? "
-                + "ORDER BY c.JMMV_clientes_id_cliente ASC ";
+                + "ORDER BY c.JMMV_clientes_nombres ASC";
 
         //enviar consulta
         try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -374,6 +374,7 @@ public class JMMV_ClienteDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error en obtención de lista de clientes activos.");
         }
 
         return listaNombresCompletos;

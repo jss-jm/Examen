@@ -201,7 +201,7 @@ public class JMMV_Controlador {
     
     
     
-    //probar
+    //creo que no se usará
     public int JMMV_ContarReservasVigentesDeClientes (String nombres){
         
         int idCliente = clienteDAO.JMMV_ObtenerIdClientePorNombres(nombres);
