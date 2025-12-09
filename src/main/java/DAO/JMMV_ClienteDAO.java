@@ -41,7 +41,7 @@ public class JMMV_ClienteDAO {
                 + "c.JMMV_clientes_telefono AS telefono, "
                 + "u.JMMV_usuarios_nom_usuario AS nombre_usuario, "
                 + "u.JMMV_usuarios_contrasena AS contrasena, "
-                + "u.JMMV_usuarios_correo AS correo "
+                + "c.JMMV_clientes_correo AS correo "
                 + "FROM JMMV_clientes c "
                 + "JOIN JMMV_usuarios u ON c.JMMV_clientes_id_usuario = u.JMMV_usuarios_id_usuario "
                 + "WHERE c.JMMV_clientes_esta_activo = TRUE "
@@ -101,16 +101,16 @@ public class JMMV_ClienteDAO {
         String sqlUsuarios = "INSERT INTO JMMV_usuarios ("
                 + "JMMV_usuarios_nom_usuario, "
                 + "JMMV_usuarios_contrasena, "
-                + "JMMV_usuarios_correo, "
                 + "JMMV_usuarios_id_rol, "
                 + "JMMV_usuarios_esta_activo) "
-                + "VALUES(?,?,?,?,?)";
+                + "VALUES(?,?,?,?)";
 
         //string segundo INSERT            
         String sqlClientes = "INSERT INTO JMMV_clientes ("
                 + "JMMV_clientes_id_usuario, "
+                + "JMMV_clientes_correo, "
                 + "JMMV_clientes_run, "
-                + "JMMV_clientes_nombres,"
+                + "JMMV_clientes_nombres, "
                 + "JMMV_clientes_apellido_paterno, "
                 + "JMMV_clientes_apellido_materno, "
                 + "JMMV_clientes_id_comuna, "
@@ -118,7 +118,7 @@ public class JMMV_ClienteDAO {
                 + "JMMV_clientes_num_calle, "
                 + "JMMV_clientes_telefono, "
                 + "JMMV_clientes_esta_activo) "
-                + "VALUES(?,?,?,?,?,?,?,?,?,?)";
+                + "VALUES(?,?,?,?,?,?,?,?,?,?,?)";
 
         int idComuna = JMMV_ObtenerIdComunaPorNombre(cliente.getJMMV_Cliente_comuna());
         System.out.println("TEST | ID comuna: "+ idComuna);
@@ -133,10 +133,9 @@ public class JMMV_ClienteDAO {
 
                 //preparar valores a enviar
                 pstmtUno.setString(1, cliente.getJMMV_Cliente_nomUsuario());
-                pstmtUno.setString(2, cliente.getJMMV_Cliente_contrasena());
-                pstmtUno.setString(3, cliente.getJMMV_Cliente_correo());
-                pstmtUno.setInt(4, 2); //rol de cliente
-                pstmtUno.setBoolean(5, true); //usuario activo
+                pstmtUno.setString(2, cliente.getJMMV_Cliente_contrasena());                
+                pstmtUno.setInt(3, 2); //rol de cliente
+                pstmtUno.setBoolean(4, true); //usuario activo
 
                 //ejecutar primer INSERT
                 int filaUno = pstmtUno.executeUpdate();
@@ -153,15 +152,16 @@ public class JMMV_ClienteDAO {
                 }
 
                 pstmtDos.setInt(1, pkInsertada);
-                pstmtDos.setInt(2, cliente.getJMMV_Cliente_run());
-                pstmtDos.setString(3, cliente.getJMMV_Cliente_nombres());
-                pstmtDos.setString(4, cliente.getJMMV_Cliente_apellidoPaterno());
-                pstmtDos.setString(5, cliente.getJMMV_Cliente_apellidoMaterno());
-                pstmtDos.setInt(6, idComuna);
-                pstmtDos.setString(7, cliente.getJMMV_Cliente_calle());
-                pstmtDos.setInt(8, cliente.getJMMV_Cliente_numCalle());
-                pstmtDos.setInt(9, cliente.getJMMV_Cliente_telefono());
-                pstmtDos.setBoolean(10, true); //cliente activo
+                pstmtDos.setString(2, cliente.getJMMV_Cliente_correo());
+                pstmtDos.setInt(3, cliente.getJMMV_Cliente_run());
+                pstmtDos.setString(4, cliente.getJMMV_Cliente_nombres());
+                pstmtDos.setString(5, cliente.getJMMV_Cliente_apellidoPaterno());
+                pstmtDos.setString(6, cliente.getJMMV_Cliente_apellidoMaterno());
+                pstmtDos.setInt(7, idComuna);
+                pstmtDos.setString(8, cliente.getJMMV_Cliente_calle());
+                pstmtDos.setInt(9, cliente.getJMMV_Cliente_numCalle());
+                pstmtDos.setInt(10, cliente.getJMMV_Cliente_telefono());
+                pstmtDos.setBoolean(11, true); //cliente activo
 
                 //ejecutar segundo INSERT
                 int filaDos = pstmtDos.executeUpdate();
@@ -177,7 +177,7 @@ public class JMMV_ClienteDAO {
             
             if (conn != null) {
                 try {
-                    System.out.println("Error en transacción. Se ejecutará ROLLBACK");
+                    System.out.println("Error en transacción. Se ejecutará ROLLBACK: "+e.getMessage());
                     //rollback
                     conn.rollback();
                 } catch (SQLException er) {

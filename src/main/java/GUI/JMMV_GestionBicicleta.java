@@ -245,7 +245,8 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         
         try {
             if (bicicleta == null) {
-                bicicleta = new JMMV_Bicicleta(nombre, tipo, null, disponible, true);
+                //solo se eliminó el valor de la descripción
+                bicicleta = new JMMV_Bicicleta(nombre, tipo, disponible, true);
                 controlador.JMMV_AgregarBicicleta(bicicleta);
                 JOptionPane.showMessageDialog(this, "Bicicleta agregada con éxito", "Bicicleta Agregada", JOptionPane.INFORMATION_MESSAGE);
                 this.bicicleta = null;

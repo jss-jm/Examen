@@ -30,8 +30,7 @@ public class JMMV_BicicletaDAO {
                 + "b.JMMV_bicicletas_id_bicicleta AS id, "
                 + "b.JMMV_bicicletas_nombre AS nombre, "
                 + "b.JMMV_bicicletas_id_tipo_bicicleta AS tipo, "
-                + "b.JMMV_bicicletas_esta_disponible AS disponibilidad, "
-                + "t.JMMV_tipos_bicicletas_descripcion AS descripcion "
+                + "b.JMMV_bicicletas_esta_disponible AS disponibilidad "
                 + "FROM JMMV_bicicletas AS b "
                 + "JOIN JMMV_tipos_bicicletas AS t ON b.JMMV_bicicletas_id_tipo_bicicleta = t.JMMV_tipos_bicicletas_id_tipo_bicicleta "
                 + "WHERE b.JMMV_bicicletas_esta_activo = ? "
@@ -51,14 +50,13 @@ public class JMMV_BicicletaDAO {
                     int JMMV_idBicicleta = rs.getInt("id");
                     String JMMV_nombre = rs.getString("nombre");
                     int JMMV_tipo = rs.getInt("tipo");
-                    String JMMV_descripcion = rs.getString("descripcion");
                     boolean JMMV_estaDisponible = rs.getBoolean("disponibilidad");
 
                     //obtener nombre de tipo de bicicleta
                     String nombreTipo = JMMV_ObtenerTipoBicicletaPorId(JMMV_tipo);
 
                     //crear objeto de la clase
-                    JMMV_Bicicleta bicicleta = new JMMV_Bicicleta(JMMV_idBicicleta, JMMV_nombre, nombreTipo, JMMV_descripcion, JMMV_estaDisponible);
+                    JMMV_Bicicleta bicicleta = new JMMV_Bicicleta(JMMV_idBicicleta, JMMV_nombre, nombreTipo, JMMV_estaDisponible);
 
                     //agregar bicicleta a lista
                     listaBicicletas.add(bicicleta);
@@ -260,7 +258,7 @@ public class JMMV_BicicletaDAO {
                     String nombreTipo = rs.getString("nombreTipo");
                     boolean disponibilidad = rs.getBoolean("disponibilidad");
                     boolean activo = rs.getBoolean("activo");
-                    JMMV_Bicicleta bicicleta = new JMMV_Bicicleta(id, nombreBicicleta, nombreTipo, null, disponibilidad, activo);
+                    JMMV_Bicicleta bicicleta = new JMMV_Bicicleta(id, nombreBicicleta, nombreTipo, disponibilidad, activo);
                     return bicicleta;
                 }
             }
