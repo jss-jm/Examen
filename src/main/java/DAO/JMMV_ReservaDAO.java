@@ -25,10 +25,8 @@ public class JMMV_ReservaDAO {
         String sql = "SELECT "
                 + "r.JMMV_reservas_id_reserva AS id, "
                 + "r.JMMV_reservas_id_cliente AS id_cliente, "
-                + "c.JMMV_clientes_nombres AS nombre_cliente, "
-                + "c.JMMV_clientes_apellido_paterno AS ap_pat, "
-                + "c.JMMV_clientes_apellido_materno AS ap_mat, "
-                + "CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',JMMV_clientes_apellido_materno) AS nombre_cliente, "
+               
+                + "CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',COALESCE(JMMV_clientes_apellido_materno,'')) AS nombre_cliente, "
                 + "r.JMMV_reservas_id_bicicleta AS id_bicicleta, "
                 + "b.JMMV_bicicletas_nombre AS nombre_bicicleta, "
                 + "r.JMMV_reservas_fecha_inicio AS fecha_inicio, "
@@ -60,10 +58,14 @@ public class JMMV_ReservaDAO {
 
                     listaReservas.add(reserva);
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error al obtener todas las reservas activas: " + e.getMessage());
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al obtener todas las reservas activas: "+e.getMessage());
         }
 
         return listaReservas;
@@ -91,11 +93,12 @@ public class JMMV_ReservaDAO {
 
             //ejecutar INSERT
             pstmt.executeUpdate();
-            System.out.println("consulta hecha");
+            System.out.println("Reserva agregada");
             return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al agregar reserva: "+e.getMessage());
 
             return false;
         }
@@ -137,6 +140,8 @@ public class JMMV_ReservaDAO {
 
     public boolean JMMV_EliminarReserva(int idReserva) {
 
+        System.out.println("Test | Eliminar bici | id reserva: "+idReserva);
+        
         String sql = "UPDATE JMMV_reservas "
                 + "SET "
                 + "JMMV_reservas_esta_activo = ? "
@@ -155,6 +160,7 @@ public class JMMV_ReservaDAO {
         } catch (SQLException e) {
 
             e.printStackTrace();
+            System.out.println("Error al eliminar bicicleta: "+e.getMessage());
 
             return false;
         }

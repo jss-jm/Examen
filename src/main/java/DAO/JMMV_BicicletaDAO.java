@@ -244,11 +244,12 @@ public class JMMV_BicicletaDAO {
                 + "b.JMMV_bicicletas_esta_activo AS activo "
                 + "FROM JMMV_bicicletas b "
                 + "JOIN JMMV_tipos_bicicletas t on b.JMMV_bicicletas_id_tipo_bicicleta = t.JMMV_tipos_bicicletas_id_tipo_bicicleta "
-                + "WHERE b.JMMV_bicicletas_nombre = ? && b.JMMV_bicicletas_esta_activo = 1";
+                + "WHERE b.JMMV_bicicletas_nombre = ? && b.JMMV_bicicletas_esta_activo = ?";
 
         try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             pstmt.setString(1, nombreBicicleta);
+            pstmt.setBoolean(2, true);
 
             try (ResultSet rs = pstmt.executeQuery()) {
 
@@ -264,6 +265,7 @@ public class JMMV_BicicletaDAO {
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al obtener bicicletas activas por nombre: "+e.getMessage());
         }
         return null; //retorna valor no válido
     }
