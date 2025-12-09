@@ -3,6 +3,7 @@ package GUI;
 
 import logica.JMMV_Cliente;
 import controlador.JMMV_Controlador;
+import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 
@@ -332,7 +333,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-            JMMV_Buscador buscador = new JMMV_Buscador(this,true,1);
+            JMMV_Buscador buscador = new JMMV_Buscador(this,true,1,0);
             buscador.setTitle("Buscar Usuario");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
@@ -342,7 +343,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if(cliente == null) {
-            JMMV_Buscador buscador = new JMMV_Buscador(this,true,1);
+            JMMV_Buscador buscador = new JMMV_Buscador(this,true,1,1);
             buscador.setTitle("Buscar Usuario");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
@@ -385,11 +386,21 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         }
         
         try {
+            String[] nombresLimpiados = nombres.split("\\s+");
             int runConv = Integer.parseInt(run);
             int numCalleConv = Integer.parseInt(numCalle);
             int telefonoConv = Integer.parseInt(telefono);
             
             if (runConv < 10000000 || numCalleConv <= 0 || telefonoConv <= 900000000) {
+                if (nombresLimpiados.length > 2) {
+                    JOptionPane.showMessageDialog(
+                            this,
+                            "Por favor, solo utilice los primeros 2 nombres del cliente.",
+                            "Valores invalidos",
+                            JOptionPane.ERROR_MESSAGE
+                    );
+                    return;
+                }
                 JOptionPane.showMessageDialog(
                         this,
                         "El RUN, número de calle o teléfono contiene valores inválidos.",
@@ -403,13 +414,19 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                 cliente = new JMMV_Cliente(user, pass, correo, runConv, nombres, apellidoP, apellidoM, comuna, nomCalle, numCalleConv, telefonoConv);
                 
                 System.out.println("Test | nombre de usuario a crear: "+cliente.getJMMV_Cliente_nomUsuario());
-                controlador.JMMV_AgregarCliente(cliente);
-                JOptionPane.showMessageDialog(this, "Usuario agregado con éxito", "Usuario Agregado", JOptionPane.INFORMATION_MESSAGE);
+                boolean exito = controlador.JMMV_AgregarCliente(cliente);
+                if (exito) {
+                    JOptionPane.showMessageDialog(this, "Usuario agregado con éxito", "Usuario Agregado", JOptionPane.INFORMATION_MESSAGE);
                 //problema: no está cerrando el cliente después de guardar cliente nuevo. 
                 //Ahora cliente no es NULL y siempre entrará en el ELSE y hará un ingreso/actualización "falso" 
                 //que no se hace en la BD.
                 //solución:
                 this.cliente = null;
+                } else {
+                     JOptionPane.showMessageDialog(this, "Error de inserción, intente nuevamente");
+                     this.cliente = null;
+                }
+                
                 
             } else {
                 System.out.println("Test | id usuario BOTON crear 1 : "+cliente.getJMMV_Cliente_idUsuario());

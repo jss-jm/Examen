@@ -145,6 +145,7 @@ public class JMMV_ClienteDAO {
                 //recuperar PK
                 try (ResultSet rs = pstmtUno.getGeneratedKeys()) {
                     if (rs.next()) {
+                        System.out.println(rs);
                         pkInsertada = rs.getInt(1);
 
                         System.out.println("Test JM | pk insertada: " + pkInsertada);
@@ -203,7 +204,7 @@ public class JMMV_ClienteDAO {
 
         //obtener id usuario        
         //int idUsuario = JMMV_ObtenerIdUsuario(cliente.getJMMV_Cliente_idCliente());
-        System.out.println("id usuario desde dao: "+cliente.getJMMV_Cliente_idUsuario());
+        System.out.println("id usuario desde dao: "+ cliente.getJMMV_Cliente_idUsuario());
 
         //string para primer UPDATE
         String sqlUno = "UPDATE JMMV_usuarios "

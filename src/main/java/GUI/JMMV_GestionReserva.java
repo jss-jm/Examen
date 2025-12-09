@@ -110,6 +110,11 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
 
         btnListar.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
         btnListar.setText("Listar");
+        btnListar.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnListarActionPerformed(evt);
+            }
+        });
 
         cBoxClientes.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
 
@@ -157,12 +162,11 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
                             .addComponent(dcTermino, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(83, 83, 83))
+                            .addComponent(btnCrear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnHome)
-                                .addGap(106, 106, 106))))))
+                                .addGap(23, 23, 23)))
+                        .addGap(77, 77, 77))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -184,20 +188,20 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
                         .addGap(18, 18, 18)
                         .addComponent(btnListar)))
                 .addGap(27, 27, 27)
-                .addComponent(lbInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnHome)
-                        .addGap(35, 35, 35)
-                        .addComponent(btnCrear))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(lbInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
                         .addComponent(dcInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(18, 18, 18)
                         .addComponent(lbTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(7, 7, 7)
-                        .addComponent(dcTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(33, Short.MAX_VALUE))
+                        .addComponent(dcTermino, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addComponent(btnHome)
+                        .addGap(35, 35, 35)
+                        .addComponent(btnCrear)))
+                .addContainerGap(52, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -225,7 +229,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
         if(reserva == null) {
-            JMMV_Buscador buscador = new JMMV_Buscador(this,true,2);
+            JMMV_Buscador buscador = new JMMV_Buscador(this,true,2,1);
             buscador.setTitle("Buscar Reserva");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
@@ -241,7 +245,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-            JMMV_Buscador buscador = new JMMV_Buscador(this,true,2);
+            JMMV_Buscador buscador = new JMMV_Buscador(this,true,2,0);
             buscador.setTitle("Buscar Reserva");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
@@ -299,6 +303,14 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
         }
         
     }//GEN-LAST:event_btnCrearActionPerformed
+
+    private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
+        JMMV_ListadoReservas listado = new JMMV_ListadoReservas();
+        listado.setTitle("Listado de Reservas");
+        listado.setLocationRelativeTo(null);
+            listado.setVisible(true);
+            this.dispose();
+    }//GEN-LAST:event_btnListarActionPerformed
 
     private void CargarBicicletas() {
         

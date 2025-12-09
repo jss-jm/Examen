@@ -60,9 +60,6 @@ public class JMMV_Controlador {
     
     public List<JMMV_Cliente> JMMV_ObtenerClientePorNombre(String nombres) {
         
-       
-
-
         List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombres);
         System.out.println(listaClientes.size());
         

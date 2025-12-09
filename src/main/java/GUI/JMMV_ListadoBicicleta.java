@@ -180,7 +180,13 @@ public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
        List <JMMV_Bicicleta> bicicletasActivas = controlador.JMMV_ObtenerTodasLasBicicletasActivas();
        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
        for (JMMV_Bicicleta bicicleta : bicicletasActivas) {
-           modelo.addRow(new Object[]{bicicleta.getJMMV_Bicicleta_nombre(), bicicleta.getJMMV_Bicicleta_tipoBicicleta(), bicicleta.isJMMV_Bicicleta_estaDisponible()});
+            String disponible = "";
+            if(bicicleta.isJMMV_Bicicleta_estaDisponible()) {
+                disponible = "Disponible";
+            }   else {
+                disponible = "No Disponible";
+                }
+           modelo.addRow(new Object[]{bicicleta.getJMMV_Bicicleta_nombre(), bicicleta.getJMMV_Bicicleta_tipoBicicleta(), disponible});
        }
    }
   

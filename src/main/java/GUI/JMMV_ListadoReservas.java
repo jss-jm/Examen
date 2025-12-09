@@ -8,6 +8,7 @@ import controlador.JMMV_Controlador;
 import java.util.List;
 import javax.swing.table.DefaultTableModel;
 import logica.JMMV_Bicicleta;
+import logica.JMMV_Reserva;
 
 public class JMMV_ListadoReservas extends javax.swing.JFrame {
     
@@ -135,7 +136,7 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
 
             },
             new String [] {
-                "Nombre", "Tipo", "Disponibilidad"
+                "Nombre Cliente", "Nombre Bicicleta", "Fecha Inicio", "Fecha Fin"
             }
         ));
         tbListado.setRowHeight(30);
@@ -150,7 +151,7 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
             .addGroup(layout.createSequentialGroup()
                 .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 134, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 599, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, 844, Short.MAX_VALUE)
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -177,10 +178,10 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
     }//GEN-LAST:event_btnInicioActionPerformed
 
    private void CargarTabla() {
-       List <JMMV_Bicicleta> bicicletasActivas = controlador.JMMV_ObtenerTodasLasBicicletasActivas();
+       List <JMMV_Reserva> ReservasActivas = controlador.JMMV_ObtenerTodasLasReservasActivas();
        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
-       for (JMMV_Bicicleta bicicleta : bicicletasActivas) {
-           modelo.addRow(new Object[]{bicicleta.getJMMV_Bicicleta_nombre(), bicicleta.getJMMV_Bicicleta_tipoBicicleta(), bicicleta.isJMMV_Bicicleta_estaDisponible()});
+       for (JMMV_Reserva reserva : ReservasActivas) {
+           modelo.addRow(new Object[]{reserva.getJMMV_Reserva_nomCliente(), reserva.getJMMV_Reserva_nomBicicleta(), reserva.getJMMV_Reserva_fechaInicio(), reserva.getJMMV_Reserva_fechaFin()});
        }
    }
   

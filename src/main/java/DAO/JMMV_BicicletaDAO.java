@@ -88,7 +88,7 @@ public class JMMV_BicicletaDAO {
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
 
             //obtener id de tipo de la bicicleta
-            int idTipoBicicleta = JMMV_ObtenerIdBicicletaPorNombre(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
+            int idTipoBicicleta = JMMV_ObtenerIdTipoNombre(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
 
             //preparar valores a enviar
             pstmt.setString(1, bicicleta.getJMMV_Bicicleta_nombre());
@@ -117,8 +117,10 @@ public class JMMV_BicicletaDAO {
                 + "b.JMMV_bicicletas_id_tipo_bicicleta = ?, "
                 + "b.JMMV_bicicletas_esta_disponible = ? "
                 + "WHERE JMMV_bicicletas_id_bicicleta = ? ";
-
-        int idTipoBicicleta = JMMV_ObtenerIdBicicletaPorNombre(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
+        System.out.println(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
+        int idTipoBicicleta = JMMV_ObtenerIdTipoNombre(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
+        System.out.println(idTipoBicicleta);
+        System.out.println(bicicleta.getJMMV_Bicicleta_idBicicleta());
 
         try (Connection conn = conexion.JMMV_Conectar(); 
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -238,9 +240,10 @@ public class JMMV_BicicletaDAO {
     
     public JMMV_Bicicleta JMMV_ObtenerBicicletaPorNombre(String nombreBicicleta) {
         String sql = "SELECT b.JMMV_bicicletas_nombre AS nombre, "
+                + "b.JMMV_bicicletas_id_bicicleta AS id, "
                 + "t.JMMV_tipos_bicicletas_nombre as nombreTipo, "
                 + "b.JMMV_bicicletas_esta_disponible AS disponibilidad, "
-                + "b.JMMV_bicicletas_esta_activo AS activo"
+                + "b.JMMV_bicicletas_esta_activo AS activo "
                 + "FROM JMMV_bicicletas b "
                 + "JOIN JMMV_tipos_bicicletas t on b.JMMV_bicicletas_id_tipo_bicicleta = t.JMMV_tipos_bicicletas_id_tipo_bicicleta "
                 + "WHERE b.JMMV_bicicletas_nombre = ? && b.JMMV_bicicletas_esta_activo = 1";
@@ -252,11 +255,12 @@ public class JMMV_BicicletaDAO {
             try (ResultSet rs = pstmt.executeQuery()) {
 
                 if (rs.next()) {
+                    int id = rs.getInt("id");
                     String nombre = rs.getString("nombre");
                     String nombreTipo = rs.getString("nombreTipo");
                     boolean disponibilidad = rs.getBoolean("disponibilidad");
                     boolean activo = rs.getBoolean("activo");
-                    JMMV_Bicicleta bicicleta = new JMMV_Bicicleta(nombreBicicleta, nombreTipo, null, disponibilidad, activo);
+                    JMMV_Bicicleta bicicleta = new JMMV_Bicicleta(id, nombreBicicleta, nombreTipo, null, disponibilidad, activo);
                     return bicicleta;
                 }
             }

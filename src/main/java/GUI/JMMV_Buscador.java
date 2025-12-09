@@ -19,15 +19,16 @@ import logica.JMMV_Reserva;
  */
 public class JMMV_Buscador extends javax.swing.JDialog {
 
-    private int seleccion;
+    private int ventanaPadre;
+    private int eliminar;
     JMMV_Controlador controlador = new JMMV_Controlador();
-    public JMMV_Buscador(java.awt.Frame parent, boolean modal,int seleccion) {
+    public JMMV_Buscador(java.awt.Frame parent, boolean modal,int ventanaPadre, int eliminar) {
         super(parent, modal);
         initComponents();
-        switch (seleccion) {
-            case 0 ->{lbBuscar.setText("Buscar Bicicleta por nombre"); this.seleccion = seleccion;}
-            case 1 -> {lbBuscar.setText("Buscar Cliente por nombre:"); this.seleccion = seleccion;}
-            case 2 -> {lbBuscar.setText("Buscar Reserva por nombre de cliente;"); this.seleccion = seleccion;}
+        switch (ventanaPadre) {
+            case 0 ->{lbBuscar.setText("Buscar Bicicleta por nombre"); this.ventanaPadre = ventanaPadre; this.eliminar = eliminar; }
+            case 1 -> {lbBuscar.setText("Buscar Cliente por nombre:"); this.ventanaPadre = ventanaPadre; this.eliminar = eliminar;}
+            case 2 -> {lbBuscar.setText("Buscar Reserva por nombre de cliente;"); this.ventanaPadre = ventanaPadre; this.eliminar = eliminar;}
             default -> {
                 JOptionPane.showMessageDialog(null,"Error de inicialización", "ERROR DE SELECCION", JOptionPane.ERROR_MESSAGE);
             }
@@ -107,18 +108,27 @@ public class JMMV_Buscador extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnBuscarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnBuscarActionPerformed
-        switch (seleccion) {
+        switch (ventanaPadre) {
             case 0 -> {
                 JMMV_Bicicleta bicicleta = controlador.JMMV_ObtenerBicicletaPorNombre(tfBuscar.getText().toLowerCase());
                 if (bicicleta == null) {
                     JOptionPane.showMessageDialog(this, "No se encontro la bicicleta, intente nuevamente", "BICICLETA NO ENCONTRADO", JOptionPane.ERROR_MESSAGE);
                 } else {
-                    JMMV_GestionBicicleta gestionBici = new JMMV_GestionBicicleta(bicicleta);
-                    gestionBici.setTitle("Gestión Bicicletas");
-                    gestionBici.setLocationRelativeTo(null);
-                    gestionBici.setResizable(false);
-                    gestionBici.setVisible(true);
-                    this.dispose();
+                    if (eliminar == 0) {
+                        JMMV_GestionBicicleta gestionBici = new JMMV_GestionBicicleta(bicicleta);
+                        gestionBici.setTitle("Gestión Bicicletas");
+                        gestionBici.setLocationRelativeTo(null);
+                        gestionBici.setResizable(false);
+                        gestionBici.setVisible(true);
+                        this.dispose();
+                    } else {
+                        JMMV_Confirmacion confirmacion = new JMMV_Confirmacion(null, true, bicicleta);
+                        confirmacion.setTitle("Eliminar Bicicleta");
+                        confirmacion.setLocationRelativeTo(null);
+                        confirmacion.setResizable(false);
+                        confirmacion.setVisible(true);
+                        this.dispose();
+                    }
                 }
                 //
             }
@@ -132,22 +142,40 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                         int run = Integer.parseInt(JOptionPane.showInputDialog(this, "Existe más de un usuario con esta combinación de nombres, favor ingresar el run del cliente."));
                         List <JMMV_Cliente> clienteRun = controlador.JMMV_ObtenerClientePorRun(run);
                         System.out.println("Cliente encontrado");
-                        JMMV_Confirmacion confirmar = new JMMV_Confirmacion(null, true, clienteRun.get(0));
-                        this.dispose();
+                        if (eliminar == 0) {
+                            JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
+                            gestionUser.setTitle("Gestión Clientes");
+                            gestionUser.setLocationRelativeTo(null);
+                            gestionUser.setResizable(false);
+                            gestionUser.setVisible(true);
+                            this.dispose();
+                        } else {
+                            JMMV_Confirmacion confirmacion = new JMMV_Confirmacion(null, true, cliente.get(0));
+                            confirmacion.setTitle("Eliminar Bicicleta");
+                            confirmacion.setLocationRelativeTo(null);
+                            confirmacion.setResizable(false);
+                            confirmacion.setVisible(true);
+                           this.dispose();
+                            
+                        }
                     } else if (cliente.size() == 1) {
-                        JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
-                        gestionUser.setTitle("Gestión Clientes");
-                        gestionUser.setLocationRelativeTo(null);
-                        gestionUser.setResizable(false);
-                        gestionUser.setVisible(true);
-                        this.dispose();
-                        
-                    }
-                    else {
-                        System.out.println("Cliente encontrado");
-                        JMMV_Confirmacion confirmar = new JMMV_Confirmacion(null, true, cliente.get(0));
-                        this.dispose();
-                    }
+                        if (eliminar == 0) {
+                            JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
+                            gestionUser.setTitle("Gestión Clientes");
+                            gestionUser.setLocationRelativeTo(null);
+                            gestionUser.setResizable(false);
+                            gestionUser.setVisible(true);
+                            this.dispose();
+                        } else {
+                            JMMV_Confirmacion confirmacion = new JMMV_Confirmacion(null, true, cliente.get(0));
+                            confirmacion.setTitle("Eliminar Cliente");
+                            confirmacion.setLocationRelativeTo(null);
+                            confirmacion.setResizable(false);
+                            confirmacion.setVisible(true);
+                            this.dispose();
+                            
+                        }
+                    } 
                 }
             }
             case 2 -> {
@@ -156,12 +184,22 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                     JOptionPane.showMessageDialog(this, "No se encontro al cliente, intente nuevamente", "CLIENTE NO ENCONTRADO", JOptionPane.ERROR_MESSAGE);
                 } else {
                     if (reserva.size() >= 1) {
-                        JMMV_GestionReserva gestionReserva = new JMMV_GestionReserva(reserva.get(0));
+                        if (eliminar == 0) {
+                            JMMV_GestionReserva gestionReserva = new JMMV_GestionReserva(reserva.get(0));
                         gestionReserva.setTitle("Gestión Reserva");
                         gestionReserva.setLocationRelativeTo(null);
                         gestionReserva.setResizable(false);
                         gestionReserva.setVisible(true);
                         this.dispose();
+                        } else {
+                            JMMV_Confirmacion confirmacion = new JMMV_Confirmacion(null, true, reserva.get(0));
+                            confirmacion.setTitle("Eliminar Reserva");
+                            confirmacion.setLocationRelativeTo(null);
+                            confirmacion.setResizable(false);
+                            confirmacion.setVisible(true);
+                            this.dispose();
+                        }
+                        
                     }
                 }
             }
