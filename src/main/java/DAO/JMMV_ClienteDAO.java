@@ -84,6 +84,7 @@ public class JMMV_ClienteDAO {
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al obtener clientes: "+e.getMessage());
         }
         System.out.println(listaClientes.size());
         return listaClientes;
@@ -178,6 +179,7 @@ public class JMMV_ClienteDAO {
             if (conn != null) {
                 try {
                     System.out.println("Error en transacción. Se ejecutará ROLLBACK: "+e.getMessage());
+                    System.out.println("Error en transacción. Se ejecutará ROLLBACK: "+e.getSQLState());
                     //rollback
                     conn.rollback();
                 } catch (SQLException er) {
@@ -192,7 +194,7 @@ public class JMMV_ClienteDAO {
                     conn.close();
                     
                 }catch(SQLException e){
-                    System.out.println("Error al cerrar la conexión "+e.getMessage());
+                    System.out.println("Error al cerrar la conexión: "+e.getMessage());
                 }
             }
         }
@@ -204,7 +206,7 @@ public class JMMV_ClienteDAO {
 
         //obtener id usuario        
         //int idUsuario = JMMV_ObtenerIdUsuario(cliente.getJMMV_Cliente_idCliente());
-        System.out.println("id usuario desde dao: "+ cliente.getJMMV_Cliente_idUsuario());
+        System.out.println("id usuario a actualizar : "+ cliente.getJMMV_Cliente_idUsuario());
 
         //string para primer UPDATE
         String sqlUno = "UPDATE JMMV_usuarios "
@@ -268,7 +270,7 @@ public class JMMV_ClienteDAO {
 
             if (conn != null) {
                 try {
-                    System.out.println("Error en transacción. Se ejecutará ROLLBACK"+e.getMessage());
+                    System.out.println("Error en transacción. Se ejecutará ROLLBACK: "+e.getMessage());
                     //rollback
                     conn.rollback();
                 } catch (SQLException er) {
@@ -283,7 +285,7 @@ public class JMMV_ClienteDAO {
                     conn.close();
 
                 } catch (SQLException e) {
-                    System.out.println("Error al cerrar la conexión " + e.getMessage());
+                    System.out.println("Error al cerrar la conexión: " + e.getMessage());
                 }
             }
         }
@@ -291,6 +293,8 @@ public class JMMV_ClienteDAO {
 
     public boolean JMMV_EliminarCliente(int idCliente) {
 
+        System.out.println("Test | idCliente a eliminar: "+idCliente);
+        
         String sql = "UPDATE JMMV_clientes "
                 + "SET "
                 + "JMMV_clientes_esta_activo = ? "
@@ -309,6 +313,7 @@ public class JMMV_ClienteDAO {
         } catch (SQLException e) {
 
             e.printStackTrace();
+            System.out.println("Error al eliminar cliente: "+e.getMessage());
 
             return false;
         }

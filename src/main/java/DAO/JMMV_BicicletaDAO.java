@@ -91,7 +91,7 @@ public class JMMV_BicicletaDAO {
             //preparar valores a enviar
             pstmt.setString(1, bicicleta.getJMMV_Bicicleta_nombre());
             pstmt.setInt(2, idTipoBicicleta);
-            pstmt.setBoolean(3, true); //disponible
+            pstmt.setBoolean(3, bicicleta.isJMMV_Bicicleta_estaDisponible());
             pstmt.setBoolean(4, true); //activo
 
             //ejecutar INSERT
@@ -115,10 +115,10 @@ public class JMMV_BicicletaDAO {
                 + "b.JMMV_bicicletas_id_tipo_bicicleta = ?, "
                 + "b.JMMV_bicicletas_esta_disponible = ? "
                 + "WHERE JMMV_bicicletas_id_bicicleta = ? ";
-        System.out.println(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
+        System.out.println("Test | tipo bici: "+bicicleta.getJMMV_Bicicleta_tipoBicicleta());
         int idTipoBicicleta = JMMV_ObtenerIdTipoNombre(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
         System.out.println(idTipoBicicleta);
-        System.out.println(bicicleta.getJMMV_Bicicleta_idBicicleta());
+        System.out.println("Test | id bici: "+bicicleta.getJMMV_Bicicleta_idBicicleta());
 
         try (Connection conn = conexion.JMMV_Conectar(); 
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
