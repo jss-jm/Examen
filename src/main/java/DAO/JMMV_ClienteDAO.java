@@ -210,8 +210,7 @@ public class JMMV_ClienteDAO {
         String sqlUno = "UPDATE JMMV_usuarios "
                 + "SET "
                 + "JMMV_usuarios_nom_usuario = ?, "
-                + "JMMV_usuarios_contrasena = ?, "
-                + "JMMV_usuarios_correo = ? "
+                + "JMMV_usuarios_contrasena = ? "
                 + "WHERE JMMV_usuarios_id_usuario = ? ";
 
         //string segundo UPDATE            
@@ -237,9 +236,8 @@ public class JMMV_ClienteDAO {
 
                 //preparar valores a enviar
                 pstmtUno.setString(1, cliente.getJMMV_Cliente_nomUsuario());
-                pstmtUno.setString(2, cliente.getJMMV_Cliente_contrasena());
-                pstmtUno.setString(3, cliente.getJMMV_Cliente_correo());
-                pstmtUno.setInt(4, cliente.getJMMV_Cliente_idUsuario());
+                pstmtUno.setString(2, cliente.getJMMV_Cliente_contrasena());                
+                pstmtUno.setInt(3, cliente.getJMMV_Cliente_idUsuario());
 
                 //ejecutar primer UPDATE
                 pstmtUno.executeUpdate();
@@ -252,8 +250,10 @@ public class JMMV_ClienteDAO {
                 pstmtDos.setInt(5, JMMV_ObtenerIdComunaPorNombre(cliente.getJMMV_Cliente_comuna()));
                 pstmtDos.setString(6, cliente.getJMMV_Cliente_calle());
                 pstmtDos.setInt(7, cliente.getJMMV_Cliente_numCalle());
-                pstmtDos.setInt(8, cliente.getJMMV_Cliente_telefono());
-                pstmtDos.setInt(9, cliente.getJMMV_Cliente_idUsuario());
+                pstmtDos.setString(8, cliente.getJMMV_Cliente_correo());
+                pstmtDos.setInt(9, cliente.getJMMV_Cliente_telefono());
+                pstmtDos.setInt(10, cliente.getJMMV_Cliente_idUsuario());
+                
 
                 //ejecutar segundo UPDATE
                 pstmtDos.executeUpdate();
@@ -267,7 +267,7 @@ public class JMMV_ClienteDAO {
 
             if (conn != null) {
                 try {
-                    System.out.println("Error en transacción. Se ejecutará ROLLBACK");
+                    System.out.println("Error en transacción. Se ejecutará ROLLBACK"+e.getMessage());
                     //rollback
                     conn.rollback();
                 } catch (SQLException er) {
@@ -460,7 +460,7 @@ public class JMMV_ClienteDAO {
                 + "c.JMMV_clientes_apellido_materno AS ap_mat, "
                 + "co.JMMV_comunas_nombre AS comuna, "
                 + "c.JMMV_clientes_calle AS calle, "
-                + "u.JMMV_usuarios_correo AS correo, "
+                + "c.JMMV_clientes_correo AS correo, "
                 + "c.JMMV_clientes_num_calle AS numero, "
                 + "c.JMMV_clientes_telefono AS telefono, "
                 + "u.JMMV_usuarios_id_usuario AS id_usuario, "
@@ -506,12 +506,12 @@ public class JMMV_ClienteDAO {
                 }
             }catch (SQLException e) {
             e.printStackTrace();
-                System.out.println("Error en ResultSet.");
+                System.out.println("Error en ResultSet."+e.getMessage());
         }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error en envío de consulta.");
+            System.out.println("Error en envío de consulta."+e.getMessage());
         }
 
         return listaClientes;
@@ -579,12 +579,12 @@ public class JMMV_ClienteDAO {
                 }
             }catch (SQLException e) {
             e.printStackTrace();
-                System.out.println("Error en ResultSet.");
+                System.out.println("Error en ResultSet."+e.getMessage());
         }
 
         } catch (SQLException e) {
             e.printStackTrace();
-            System.out.println("Error en envío de consulta");
+            System.out.println("Error en envío de consulta"+e.getMessage());
         }
 
         return listaClientes;
@@ -610,10 +610,11 @@ public class JMMV_ClienteDAO {
                 }
             } catch (SQLException e) {
                 e.printStackTrace();
-                System.out.println("Error ResultSet");
+                System.out.println("Error ResultSet: "+e.getMessage());
             }
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al obtener id cliente: "+e.getMessage());
         }
         return -1; //retorna valor no válido
     }
