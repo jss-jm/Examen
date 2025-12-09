@@ -9,7 +9,6 @@ CREATE TABLE JMMV_usuarios(
     JMMV_usuarios_id_usuario INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     JMMV_usuarios_nom_usuario VARCHAR(75) NOT NULL UNIQUE,
     JMMV_usuarios_contrasena VARCHAR(20) NOT NULL,
-    JMMV_usuarios_correo VARCHAR(50) NOT NULL,
     JMMV_usuarios_id_rol INT NOT NULL,
     JMMV_usuarios_esta_activo BOOLEAN NOT NULL
     );
@@ -23,14 +22,15 @@ CREATE TABLE JMMV_roles(
 CREATE TABLE JMMV_clientes(
     JMMV_clientes_id_cliente INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     JMMV_clientes_id_usuario INT NOT NULL,
+    JMMV_clientes_correo VARCHAR(50) NOT NULL UNIQUE,
     JMMV_clientes_run INT NOT NULL UNIQUE,
     JMMV_clientes_nombres VARCHAR(150) NOT NULL,
     JMMV_clientes_apellido_paterno VARCHAR(75) NOT NULL,
-    JMMV_clientes_apellido_materno VARCHAR(75) DEFAULT 'No aplica',    
+    JMMV_clientes_apellido_materno VARCHAR(75),    
     JMMV_clientes_id_comuna INT NOT NULL,
     JMMV_clientes_calle VARCHAR(75) NOT NULL,
     JMMV_clientes_num_calle INT NOT NULL,
-    JMMV_clientes_telefono INT,
+    JMMV_clientes_telefono INT NOT NULL,
     JMMV_clientes_esta_activo BOOLEAN NOT NULL
     );
     
@@ -60,7 +60,6 @@ CREATE TABLE JMMV_bicicletas(
 CREATE TABLE JMMV_tipos_bicicletas(
     JMMV_tipos_bicicletas_id_tipo_bicicleta INT PRIMARY KEY NOT NULL AUTO_INCREMENT,
     JMMV_tipos_bicicletas_nombre VARCHAR(75) NOT NULL UNIQUE,
-    JMMV_tipos_bicicletas_descripcion TEXT,
     JMMV_tipos_bicicletas_esta_activo BOOLEAN NOT NULL
     );
 
@@ -144,69 +143,71 @@ VALUES
 
 INSERT INTO JMMV_tipos_bicicletas
 VALUES
-(NULL,'Urbana','desc 1',TRUE),
-(NULL,'Ruta','desc 2',TRUE),
-(NULL,'Montaña','desc 3',TRUE),
-(NULL,'Triatlón','desc 4',TRUE),
-(NULL,'Plegable','desc 5',TRUE),
-(NULL,'BMX',NULL,TRUE)
+(NULL,'Urbana',TRUE),
+(NULL,'Ruta',TRUE),
+(NULL,'Montaña',TRUE),
+(NULL,'Triatlon',TRUE),
+(NULL,'Plegable',TRUE),
+(NULL,'BMXX',TRUE),
+(NULL,'Gravel',TRUE),
+(NULL,'EBikes',TRUE)
 ;
 
 INSERT INTO JMMV_usuarios
 VALUES
-(NULL,'admin','123','correo1@dominio.com',1,TRUE),
-(NULL,'admin2','a222','correo2@dominio.com',1,TRUE),
-(NULL,'usuarioC3','a333','correo3@dominio.com',2,TRUE),
-(NULL,'usuarioC4','a444','correo4@dominio.com',2,TRUE),
-(NULL,'usuarioC5','a555','correo5@dominio.com',2,TRUE),
-(NULL,'usuarioC6','a666','correo6@dominio.com',2,TRUE),
-(NULL,'usuarioC777','a777','correo7@dominio.com',2,TRUE),
-(NULL,'usuarioC8','a888','correo8@dominio.com',2,TRUE),
-(NULL,'usuarioC9','a999','correo9@dominio.com',2,TRUE),
-(NULL,'usuarioC10','a1010','correo10@dominio.com',2,TRUE),
-(NULL,'usuarioC11','a1111','correo11@dominio.com',2,TRUE),
-(NULL,'usuarioC12','a1212','correo12@dominio.com',2,TRUE),
-(NULL,'usuarioC13','a1111','correo13@dominio.com',2,TRUE),
-(NULL,'usuarioC14','a1212','correo14@dominio.com',2,TRUE)
+(NULL,'admin','123',1,TRUE),
+(NULL,'admin2','1234Abcd',1,TRUE),
+(NULL,'usuarioC1','Pass1111',2,TRUE),
+(NULL,'usuarioC2','Pass2222',2,TRUE),
+(NULL,'usuarioC3','Pass3333',2,TRUE),
+(NULL,'usuarioC4','Pass4444',2,TRUE),
+(NULL,'usuarioC5','Pass5555',2,TRUE),
+(NULL,'usuarioC6','Pass6666',2,TRUE),
+(NULL,'usuarioC7','Pass7777',2,TRUE),
+(NULL,'usuarioC8','Pass8888',2,TRUE),
+(NULL,'usuarioC9','Pass9999',2,TRUE),
+(NULL,'usuarioC10','Pass1010',2,TRUE),
+(NULL,'usuarioC11','Pass1111',2,TRUE),
+(NULL,'usuarioC12','Pass1212',2,TRUE)
 ;
 
 INSERT INTO JMMV_clientes
 VALUES
-(NULL,3,111111111,'nombre nombre1','apellidoP1','apellidoM1',9,'calle1',111,9555551,TRUE),
-(NULL,4,222222222,'nombre nombre2','apellidoP2','apellidoM2',1,'calle2',222,9555552,TRUE),
-(NULL,5,333333333,'nombre nombre3','apellidoP3','apellidoM3',1,'calle3',333,9555553,FALSE),
-(NULL,6,444444444,'nombre nombre4','apellidoP4','apellidoM4',1,'calle4',444,9555554,TRUE),
-(NULL,7,555555555,'nombre nombre5','apellidoP5','apellidoM5',1,'calle5',555,9555555,TRUE),
-(NULL,8,666666666,'nombre nombre6','apellidoP6','apellidoM6',1,'calle6',666,9555556,TRUE),
-(NULL,9,777777777,'nombre nombre7','apellidoP7','apellidoM7',1,'calle7',777,9555557,FALSE),
-(NULL,10,888888888,'nombre nombre8','apellidoP8','apellidoM8',1,'calle8',888,9555557,TRUE),
-(NULL,11,999999999,'nombre nombre9','apellidoP9',DEFAULT,1,'calle9',999,9555558,TRUE),
-(NULL,12,111111110,'nombre10','apellidoP10','apellidoM10',8,'calle10',1010,9555510,TRUE),
-(NULL,13,222222220,'nombre nombre11','apellidoP11','apellidoM11',1,'calle11',1111,9555511,TRUE),
-(NULL,14,333333330,'nombre nombre12','apellidoP12','apellidoM12',10,'calle11',1212,9555512,TRUE);
+(NULL,3,'correo1@dominio.com',197997214,'Juan Carlos','Mora','Isla',9,'Lautaro',111,963258741,TRUE),
+(NULL,4,'correo2@dominio.com',85792520,'Rodrigo Marcos','Carrasco','Pedrero',1,'Arturo Prat',222,987654321,TRUE),
+(NULL,5,'correo3@dominio.com',185455793,'Natalia Andrea','Silva','Rojas',1,'Los Alerces',333,985263741,FALSE),
+(NULL,6,'correo4@dominio.com',117678148,'Carla Alicia','Lastra','Montes',1,'Santo Domingo',444,965487321,TRUE),
+(NULL,7,'correo5@dominio.com',144361857,'Pedro Pablo Alfredo','Peirano','Olate',1,'Obispo',555,974185263,TRUE),
+(NULL,8,'correo6@dominio.com',140257974,'Carla Alicia','Lastra','Montes',1,'Alameda',666,978456123,TRUE),
+(NULL,9,'correo7@dominio.com',125794246,'Alonso Felipe','Oliva','Olivos',1,'Aromos',777,952147863,FALSE),
+(NULL,10,'correo8@dominio.com',68364477,'Sandra Camila','Parra','Salgado',1,'Las Rosas',888,957846321,TRUE),
+(NULL,11,'correo9@dominio.com',555555555,'Alex David','Smith',NULL,1,'Arauco',999,956123478,TRUE),
+(NULL,12,'correo10@dominio.com',136270508,'Roberto Javier Alonso','Escobar','Vidal',8,'Los Copihues',1010,951847623,TRUE),
+(NULL,13,'correo11@dominio.com',121839857,'Amelia Fernanda','Molina','Soto',1,'Agustinas',1111,954613287,TRUE),
+(NULL,14,'correo12@dominio.com',202554342,'Patricio','Bravo','Araya',10,'Independencia',1212,963147852,TRUE);
 
 INSERT INTO JMMV_bicicletas
 VALUES
-(NULL,'bici1',6,FALSE,FALSE),
-(NULL,'bici2',5,FALSE,FALSE),
-(NULL,'bici3',4,TRUE,TRUE),
-(NULL,'bici4',3,TRUE,TRUE),
-(NULL,'bici5',2,TRUE,TRUE),
-(NULL,'bici6',1,TRUE,TRUE),
-(NULL,'bici7',6,TRUE,TRUE),
-(NULL,'bici8',5,TRUE,TRUE),
-(NULL,'bici9',4,TRUE,TRUE),
-(NULL,'bici10',3,TRUE,TRUE),
-(NULL,'bici11',2,TRUE,TRUE),
-(NULL,'bici12',1,TRUE,TRUE),
-(NULL,'bici13',6,FALSE,TRUE),
-(NULL,'bici14',5,TRUE,TRUE),
-(NULL,'bici15',4,TRUE,TRUE),
-(NULL,'bici16',3,TRUE,TRUE),
-(NULL,'bici17',2,TRUE,TRUE),
-(NULL,'bici18',1,TRUE,TRUE),
-(NULL,'bici19',6,TRUE,TRUE),
-(NULL,'bici20',5,TRUE,TRUE)
+(NULL,'Range',6,FALSE,FALSE),
+(NULL,'Sight',5,FALSE,FALSE),
+(NULL,'Charger',4,TRUE,TRUE),
+(NULL,'Shore',3,TRUE,TRUE),
+(NULL,'Fluid',2,TRUE,TRUE),
+(NULL,'Search',1,TRUE,TRUE),
+(NULL,'Storm',6,TRUE,TRUE),
+(NULL,'Rocket',5,TRUE,TRUE),
+(NULL,'Scale',4,TRUE,TRUE),
+(NULL,'Sport',3,TRUE,TRUE),
+(NULL,'Strider',2,TRUE,TRUE),
+(NULL,'Phoenix',1,TRUE,TRUE),
+(NULL,'Nomad',6,FALSE,TRUE),
+(NULL,'Spire',5,TRUE,TRUE),
+(NULL,'Bronson',4,TRUE,TRUE),
+(NULL,'Access',3,TRUE,TRUE),
+(NULL,'Collosus',2,TRUE,TRUE),
+(NULL,'Rival',1,TRUE,TRUE),
+(NULL,'New Pro',6,TRUE,TRUE),
+(NULL,'Stereo',5,TRUE,TRUE)
 ;
 
 INSERT INTO JMMV_reservas
@@ -230,3 +231,57 @@ VALUES
 (NULL,8,14,'2025-10-30','2025-11-06',TRUE),
 (NULL,4,13,'2025-12-08','2025-10-11',TRUE)
 ;
+
+##########################################
+## 3 Modificaciones de datos de usuarios: CLIENTES
+UPDATE jmmv_clientes
+SET JMMV_clientes_calle = 'Lautaro'
+WHERE JMMV_clientes_id_cliente = 5;
+
+UPDATE jmmv_clientes
+SET JMMV_clientes_num_calle = 525
+WHERE JMMV_clientes_id_cliente = 2;
+
+UPDATE jmmv_clientes
+SET JMMV_clientes_telefono = 987654521
+WHERE JMMV_clientes_id_cliente = 1;
+
+
+## 2 Modificaciones de datos de categorías
+UPDATE JMMV_tipos_bicicletas
+SET JMMV_tipos_bicicletas_nombre = 'BMX'
+WHERE JMMV_tipos_bicicletas_id_tipo_bicicleta = 6;
+
+UPDATE JMMV_tipos_bicicletas
+SET JMMV_tipos_bicicletas_nombre = 'EBike'
+WHERE JMMV_tipos_bicicletas_id_tipo_bicicleta = 8;
+
+
+## 3 Modificaciones de datos de reservas
+UPDATE JMMV_reservas
+SET JMMV_reservas_id_cliente = 12
+WHERE JMMV_reservas_id_reserva = 16;
+
+UPDATE JMMV_reservas
+SET JMMV_reservas_id_bicicleta = 3
+WHERE JMMV_reservas_id_reserva = 14;
+
+UPDATE JMMV_reservas
+SET JMMV_reservas_id_cliente = 4
+WHERE JMMV_reservas_id_reserva = 10;
+
+
+## 3 Eliminaciones de datos de reservas
+#borrado físico no aplicado
+DELETE FROM jmmv_reservas WHERE jmmv_reservas_id_cliente = 6;
+DELETE FROM jmmv_reservas WHERE jmmv_reservas_id_cliente = 11;
+
+
+## 3 Eliminaciones de datos de usuarios: CLIENTES
+#borrado físico no aplicado
+DELETE FROM jmmv_clientes WHERE jmmv_clientes_id_cliente = 1;
+DELETE FROM jmmv_clientes WHERE jmmv_clientes_id_cliente = 7;
+
+
+## 6 Consultas utilizadas en la aplicación
+cualquier consulta usada en la app
