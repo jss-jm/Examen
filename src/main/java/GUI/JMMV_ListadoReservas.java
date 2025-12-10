@@ -6,6 +6,10 @@ package GUI;
 
 import controlador.JMMV_Controlador;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import logica.JMMV_Bicicleta;
 import logica.JMMV_Reserva;
@@ -13,7 +17,7 @@ import logica.JMMV_Reserva;
 public class JMMV_ListadoReservas extends javax.swing.JFrame {
     
     JMMV_Controlador controlador = new JMMV_Controlador();
-
+    JMMV_Reserva reserva;
     public JMMV_ListadoReservas() {
         initComponents();
         CargarTabla();
@@ -183,6 +187,29 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
        for (JMMV_Reserva reserva : ReservasActivas) {
            modelo.addRow(new Object[]{reserva.getJMMV_Reserva_nomCliente(), reserva.getJMMV_Reserva_nomBicicleta(), reserva.getJMMV_Reserva_fechaInicio(), reserva.getJMMV_Reserva_fechaFin()});
        }
+   }
+   
+   private void SeleccionadorDeTabla(JTable tabla) {
+       ListSelectionModel selectionModel = tabla.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tbListado.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Object nombresCliente = tbListado.getValueAt(selectedRow, 0);
+                        System.out.println(nombresCliente.toString());
+                        //nombreCliente = nombresCliente.toString();
+                        //cliente = controlador.JMMV_ObtenerClientePorNombre(nombreCliente);
+                        //JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
+                        //gestionUser.setTitle("Editar Cliente");
+                        //gestionUser.setResizable(false);
+                        //gestionUser.setLocationRelativeTo(null);
+                        //gestionUser.setVisible(true);
+                    }
+                }
+            }
+        });
    }
   
 

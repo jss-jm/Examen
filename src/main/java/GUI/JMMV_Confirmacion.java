@@ -124,16 +124,31 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
             case 0 -> {
                 controlador.JMMV_EliminarBicicleta(bicicleta.getJMMV_Bicicleta_nombre());
                 JOptionPane.showMessageDialog(this, "Bicicleta eliminada con exito", "Eliminación exitosa", JOptionPane.ERROR_MESSAGE);
+                JMMV_GestionBicicleta gestionBicicleta = new JMMV_GestionBicicleta();
+                gestionBicicleta.setTitle("Gestión Bicicleta");
+                gestionBicicleta.setLocationRelativeTo(null);
+                gestionBicicleta.setResizable(false);
+                gestionBicicleta.setVisible(true);
                 this.dispose();
             }
             case 1 -> {
                 controlador.JMMV_EliminarCliente(cliente.getJMMV_Cliente_idCliente());
                 JOptionPane.showMessageDialog(this, "Cliente eliminado con exito", "Eliminación exitosa", JOptionPane.ERROR_MESSAGE);
+                JMMV_GestionUsuarios gestionUsuarios = new JMMV_GestionUsuarios();
+                gestionUsuarios.setTitle("Gestion Usuarios");
+                gestionUsuarios.setLocationRelativeTo(null);
+                gestionUsuarios.setResizable(false);
+                gestionUsuarios.setVisible(true);
                 this.dispose();
             }
             case 2 -> {
                 controlador.JMMV_EliminarReserva(reserva.getJMMV_Reserva_idReserva());
                 JOptionPane.showMessageDialog(this, "Reserva eliminada con exito", "Eliminación exitosa", JOptionPane.ERROR_MESSAGE);
+                JMMV_GestionReserva gestionReservas = new JMMV_GestionReserva();
+                gestionReservas.setTitle("Gestion Reservas");
+                gestionReservas.setLocationRelativeTo(null);
+                gestionReservas.setResizable(false);
+                gestionReservas.setVisible(true);
                 this.dispose();
             }
         }

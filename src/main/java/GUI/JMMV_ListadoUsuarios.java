@@ -6,6 +6,7 @@ package GUI;
 
 import controlador.JMMV_Controlador;
 import java.util.List;
+import javax.swing.JTable;
 import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -22,29 +23,7 @@ public class JMMV_ListadoUsuarios extends javax.swing.JFrame {
         
         initComponents();
         CargarTabla();
-        ListSelectionModel selectionModel = tbListado.getSelectionModel();
-        selectionModel.addListSelectionListener(new ListSelectionListener() {
-            @Override
-            public void valueChanged(ListSelectionEvent e) {
-                if (!e.getValueIsAdjusting()) {
-                    int selectedRow = tbListado.getSelectedRow();
-                    if (selectedRow != -1) {
-                        Object nombresCliente = tbListado.getValueAt(selectedRow, 0);
-                        System.out.println(nombresCliente.toString());
-                        nombreCliente = nombresCliente.toString();
-                        cliente = controlador.JMMV_ObtenerClientePorNombre(nombreCliente);
-                        JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
-                        gestionUser.setTitle("Editar Cliente");
-                        gestionUser.setResizable(false);
-                        gestionUser.setLocationRelativeTo(null);
-                        gestionUser.setVisible(true);
-
-                    }
-                }
-            }
-        });
-        
-        this.dispose();
+        SeleccionadorDeTabla(tbListado);
     }
 
     
@@ -61,6 +40,7 @@ public class JMMV_ListadoUsuarios extends javax.swing.JFrame {
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
         btnInicio.setFont(new java.awt.Font("Segoe UI", 0, 18)); // NOI18N
+        btnInicio.setIcon(new javax.swing.ImageIcon("C:\\Users\\Agustin\\OneDrive\\Escritorio\\examen_max\\src\\static\\home_50dp_1F1F1F_FILL0_wght400_GRAD0_opsz48.png")); // NOI18N
         btnInicio.setText("Inicio");
         btnInicio.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -163,6 +143,29 @@ public class JMMV_ListadoUsuarios extends javax.swing.JFrame {
            cliente.getJMMV_Cliente_apellidoMaterno(), cliente.getJMMV_Cliente_run(), cliente.getJMMV_Cliente_comuna(),
            cliente.getJMMV_Cliente_calle(), cliente.getJMMV_Cliente_numCalle(), cliente.getJMMV_Cliente_correo(), cliente.getJMMV_Cliente_telefono()});
        }
+   }
+   
+   private void SeleccionadorDeTabla(JTable tabla) {
+       ListSelectionModel selectionModel = tabla.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tbListado.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Object nombresCliente = tbListado.getValueAt(selectedRow, 0);
+                        System.out.println(nombresCliente.toString());
+                        nombreCliente = nombresCliente.toString();
+                        cliente = controlador.JMMV_ObtenerClientePorNombre(nombreCliente);
+                        JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
+                        gestionUser.setTitle("Editar Cliente");
+                        gestionUser.setResizable(false);
+                        gestionUser.setLocationRelativeTo(null);
+                        gestionUser.setVisible(true);
+                    }
+                }
+            }
+        });
    }
   
 

@@ -207,23 +207,25 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
             buscador.setTitle("Buscar Usuario");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
-            buscador.setVisible(true); 
+            buscador.setVisible(true);
+            this.dispose();
         } else {
             JMMV_Confirmacion confirmar = new JMMV_Confirmacion(this, true, bicicleta);
             confirmar.setTitle("Confirmar eliminación");
             confirmar.setLocationRelativeTo(null);
             confirmar.setResizable(false);
             confirmar.setVisible(true);
+            this.dispose();
         }
                              
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-            JMMV_Buscador buscador = new JMMV_Buscador(this,true,0,0);
-            buscador.setTitle("Buscar Bicicleta");
-            buscador.setLocationRelativeTo(null);
-            buscador.setResizable(false);
-            buscador.setVisible(true);
+            JMMV_ListadoBicicleta listado = new JMMV_ListadoBicicleta();
+            listado.setTitle("Buscar Bicicleta");
+            listado.setLocationRelativeTo(null);
+            listado.setResizable(false);
+            listado.setVisible(true);
             this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -250,6 +252,7 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                 controlador.JMMV_AgregarBicicleta(bicicleta);
                 JOptionPane.showMessageDialog(this, "Bicicleta agregada con éxito", "Bicicleta Agregada", JOptionPane.INFORMATION_MESSAGE);
                 this.bicicleta = null;
+                CompositorLimpio();
                 
             } else {
                 bicicleta.setJMMV_Bicicleta_nombre(nombre);
@@ -257,6 +260,7 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                 bicicleta.setJMMV_Bicicleta_estaDisponible(disponible);
                 controlador.JMMV_ActualizarBicicleta(bicicleta);
                 JOptionPane.showMessageDialog(this, "Bicicleta actualizada con éxito", "Bicicleta Actualizada", JOptionPane.INFORMATION_MESSAGE);
+                CompositorLimpio();
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
@@ -284,6 +288,15 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         for (String tipo : tipos) {
             cBoxTipos.addItem(tipo);
         }
+    }
+    
+    private void CompositorLimpio() {
+        JMMV_GestionBicicleta gestionBicicleta = new JMMV_GestionBicicleta();
+        gestionBicicleta.setTitle("Gestión Bicicleta");
+        gestionBicicleta.setLocationRelativeTo(null);
+        gestionBicicleta.setResizable(false);
+        gestionBicicleta.setVisible(true);
+        this.dispose();
     }
  
 

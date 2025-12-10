@@ -6,16 +6,21 @@ package GUI;
 
 import controlador.JMMV_Controlador;
 import java.util.List;
+import javax.swing.JTable;
+import javax.swing.ListSelectionModel;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
 import logica.JMMV_Bicicleta;
 
 public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
     
     JMMV_Controlador controlador = new JMMV_Controlador();
-
+    private JMMV_Bicicleta bicicleta;
     public JMMV_ListadoBicicleta() {
         initComponents();
         CargarTabla();
+        SeleccionadorDeTabla(tbListado);
     }
 
     
@@ -137,8 +142,21 @@ public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
             new String [] {
                 "Nombre", "Tipo", "Disponibilidad"
             }
-        ));
+        ) {
+            boolean[] canEdit = new boolean [] {
+                false, false, false
+            };
+
+            public boolean isCellEditable(int rowIndex, int columnIndex) {
+                return canEdit [columnIndex];
+            }
+        });
         tbListado.setRowHeight(30);
+        tbListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                tbListadoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbListado);
 
         jPanel2.add(jScrollPane1);
@@ -176,6 +194,10 @@ public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnInicioActionPerformed
 
+    private void tbListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbListadoMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_tbListadoMouseClicked
+
    private void CargarTabla() {
        List <JMMV_Bicicleta> bicicletasActivas = controlador.JMMV_ObtenerTodasLasBicicletasActivas();
        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
@@ -188,6 +210,28 @@ public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
                 }
            modelo.addRow(new Object[]{bicicleta.getJMMV_Bicicleta_nombre(), bicicleta.getJMMV_Bicicleta_tipoBicicleta(), disponible});
        }
+   }
+   
+   private void SeleccionadorDeTabla(JTable tabla) {
+       ListSelectionModel selectionModel = tabla.getSelectionModel();
+        selectionModel.addListSelectionListener(new ListSelectionListener() {
+            @Override
+            public void valueChanged(ListSelectionEvent e) {
+                if (!e.getValueIsAdjusting()) {
+                    int selectedRow = tbListado.getSelectedRow();
+                    if (selectedRow != -1) {
+                        Object nombreBicicleta = tbListado.getValueAt(selectedRow, 0);
+                        System.out.println(nombreBicicleta.toString());
+                        bicicleta = controlador.JMMV_ObtenerBicicletaPorNombre(nombreBicicleta.toString());
+                        JMMV_GestionBicicleta gestionBicicleta = new JMMV_GestionBicicleta(bicicleta);
+                        gestionBicicleta.setTitle("Editar Cliente");
+                        gestionBicicleta.setResizable(false);
+                        gestionBicicleta.setLocationRelativeTo(null);
+                        gestionBicicleta.setVisible(true);
+                    }
+                }
+            }
+        });
    }
   
 
