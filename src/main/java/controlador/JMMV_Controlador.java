@@ -68,7 +68,7 @@ public class JMMV_Controlador {
     
     public List<JMMV_Cliente> JMMV_ObtenerNombreApellidoYNombresCompletosClientesActivos() {
 
-        List<JMMV_Cliente> listaNombreApellidoYNombreCompleto = clienteDAO.JMMV_ObtenerTodosLosClientesActivos();
+        List<JMMV_Cliente> listaNombreApellidoYNombreCompleto = clienteDAO.JMMV_ObtenerNombreApellidoYNombresCompletosClientesActivos();
         
         return listaNombreApellidoYNombreCompleto;
     }
@@ -195,6 +195,13 @@ public class JMMV_Controlador {
         
         return reservaDAO.JMMV_EliminarReserva(idReserva);
         
+    }
+    
+    public List<JMMV_Reserva> JMMV_ObtenerTodasLasReservasActivasDeCliente(int idCliente) {
+
+        List<JMMV_Reserva> listaReservasDeCliente = reservaDAO.JMMV_ObtenerTodasLasReservasActivasDeCliente(idCliente);
+        
+        return listaReservasDeCliente;
     }
     
     public JMMV_Bicicleta JMMV_ObtenerBicicletaPorNombre (String bicicleta) {
