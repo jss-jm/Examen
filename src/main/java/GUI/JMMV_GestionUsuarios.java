@@ -1,4 +1,3 @@
-
 package GUI;
 
 import logica.JMMV_Cliente;
@@ -7,18 +6,18 @@ import java.sql.SQLException;
 import java.util.List;
 import javax.swing.JOptionPane;
 
-
 public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
     private JMMV_Cliente cliente;
     private JMMV_Controlador controlador = new JMMV_Controlador();
+
     public JMMV_GestionUsuarios() {
         initComponents();
         CargarComunas();
         this.cliente = null;
-        
+
     }
-    
+
     public JMMV_GestionUsuarios(JMMV_Cliente cliente) {
         initComponents();
         CargarComunas();
@@ -34,9 +33,10 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         tfRun.setText(String.valueOf(cliente.getJMMV_Cliente_run()));
         tfTelefono.setText(String.valueOf(cliente.getJMMV_Cliente_telefono()));
         tfCorreo.setText(cliente.getJMMV_Cliente_correo());
-        btnModificar.setVisible(false);
+        btnModificar.setText("Seleccionar Otro");
         btnCrear.setText("Modificar");
     }
+
     /**
      * This method is called from within the constructor to initialize the form.
      * WARNING: Do NOT modify this code. The content of this method is always
@@ -243,11 +243,11 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                                 .addGap(170, 170, 170)
                                 .addComponent(btnHome))
                             .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(btnModificar)
+                                .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(21, 21, 21)
-                                .addComponent(btnEliminar)
+                                .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(18, 18, 18)
-                                .addComponent(btnListar)
+                                .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addGap(92, 92, 92))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addGap(39, 39, 39)
@@ -333,21 +333,21 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-            JMMV_ListadoUsuarios listado = new JMMV_ListadoUsuarios();
-            listado.setTitle("Buscar Usuario");
-            listado.setLocationRelativeTo(null);
-            listado.setResizable(false);
-            listado.setVisible(true);
-            this.dispose();
+        JMMV_ListadoUsuarios listado = new JMMV_ListadoUsuarios();
+        listado.setTitle("Buscar Usuario");
+        listado.setLocationRelativeTo(null);
+        listado.setResizable(false);
+        listado.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(cliente == null) {
-            JMMV_ListadoUsuarios listado = new JMMV_ListadoUsuarios();
-            listado.setTitle("Buscar Usuario");
-            listado.setLocationRelativeTo(null);
-            listado.setResizable(false);
-            listado.setVisible(true);
+        if (cliente == null) {
+            JMMV_Buscador buscador = new JMMV_Buscador(this, true, 1, 1);
+            buscador.setTitle("Buscar Usuario");
+            buscador.setLocationRelativeTo(null);
+            buscador.setResizable(false);
+            buscador.setVisible(true);
             this.dispose();
         } else {
             JMMV_Confirmacion confirmar = new JMMV_Confirmacion(this, true, cliente);
@@ -368,16 +368,16 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
         String correo = tfCorreo.getText();
         String nomCalle = tfNomCalle.getText();
         String numCalle = tfNumCalle.getText();
-        String comuna = (String)cBoxComunas.getSelectedItem();
+        String comuna = (String) cBoxComunas.getSelectedItem();
         String pass = new String(pfPass.getPassword());
         String telefono = tfTelefono.getText();
-        
-        if (nombres.isEmpty() || apellidoP.isEmpty() || apellidoM.isEmpty() ||
-            user.isEmpty() || run.isEmpty() || correo.isEmpty() ||
-            nomCalle.isEmpty() || numCalle.isEmpty() || comuna.isEmpty() ||
-            pass.isEmpty() || telefono.isEmpty()) {
-            
-             JOptionPane.showMessageDialog(
+
+        if (nombres.isEmpty() || apellidoP.isEmpty() || apellidoM.isEmpty()
+                || user.isEmpty() || run.isEmpty() || correo.isEmpty()
+                || nomCalle.isEmpty() || numCalle.isEmpty() || comuna.isEmpty()
+                || pass.isEmpty() || telefono.isEmpty()) {
+
+            JOptionPane.showMessageDialog(
                     this,
                     "Todos los campos son obligatorios.",
                     "Campos vacios",
@@ -386,14 +386,22 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
 
             return;
         }
-        
+
         try {
             String[] nombresLimpiados = nombres.split("\\s+");
             int runConv = Integer.parseInt(run);
             int numCalleConv = Integer.parseInt(numCalle);
             int telefonoConv = Integer.parseInt(telefono);
-            
+
             if (runConv < 10000000 || numCalleConv <= 0 || telefonoConv <= 900000000) {
+                JOptionPane.showMessageDialog(
+                        this,
+                        "El RUN, número de calle o teléfono contiene valores inválidos.",
+                        "Valores invalidos",
+                        JOptionPane.ERROR_MESSAGE
+                );
+                return;
+            } else {
                 if (nombresLimpiados.length > 2) {
                     JOptionPane.showMessageDialog(
                             this,
@@ -403,37 +411,29 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                     );
                     return;
                 }
-                JOptionPane.showMessageDialog(
-                        this,
-                        "El RUN, número de calle o teléfono contiene valores inválidos.",
-                        "Valores invalidos",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return;
             }
-            
+
             if (cliente == null) {
                 cliente = new JMMV_Cliente(user, pass, correo, runConv, nombres, apellidoP, apellidoM, comuna, nomCalle, numCalleConv, telefonoConv);
-                
-                System.out.println("Test | nombre de usuario a crear: "+cliente.getJMMV_Cliente_nomUsuario());
+
+                System.out.println("Test | nombre de usuario a crear: " + cliente.getJMMV_Cliente_nomUsuario());
                 boolean exito = controlador.JMMV_AgregarCliente(cliente);
                 if (exito) {
                     JOptionPane.showMessageDialog(this, "Usuario agregado con éxito", "Usuario Agregado", JOptionPane.INFORMATION_MESSAGE);
-                //problema: no está cerrando el cliente después de guardar cliente nuevo. 
-                //Ahora cliente no es NULL y siempre entrará en el ELSE y hará un ingreso/actualización "falso" 
-                //que no se hace en la BD.
-                //solución:
-                this.cliente = null;
-                CompositorLimpio();
+                    //problema: no está cerrando el cliente después de guardar cliente nuevo. 
+                    //Ahora cliente no es NULL y siempre entrará en el ELSE y hará un ingreso/actualización "falso" 
+                    //que no se hace en la BD.
+                    //solución:
+                    this.cliente = null;
+                    CompositorLimpio();
                 } else {
-                     JOptionPane.showMessageDialog(this, "Error de inserción, intente nuevamente");
-                     this.cliente = null;
-                     CompositorLimpio();
+                    JOptionPane.showMessageDialog(this, "Error de inserción, intente nuevamente");
+                    this.cliente = null;
+                    CompositorLimpio();
                 }
-                
-                
+
             } else {
-                System.out.println("Test | id usuario BOTON crear 1 : "+cliente.getJMMV_Cliente_idUsuario());
+                System.out.println("Test | id usuario BOTON crear 1 : " + cliente.getJMMV_Cliente_idUsuario());
                 cliente.setJMMV_Cliente_nombres(nombres);
                 cliente.setJMMV_Cliente_apellidoPaterno(apellidoP);
                 cliente.setJMMV_Cliente_apellidoMaterno(apellidoM);
@@ -445,37 +445,35 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                 cliente.setJMMV_Cliente_comuna(comuna);
                 cliente.setJMMV_Cliente_contrasena(pass);
                 cliente.setJMMV_Cliente_telefono(telefonoConv);
-                System.out.println("Test | ID usuario BOTON crear 2 : "+cliente.getJMMV_Cliente_idUsuario());
+                System.out.println("Test | ID usuario BOTON crear 2 : " + cliente.getJMMV_Cliente_idUsuario());
                 controlador.JMMV_ActualizarCliente(cliente);
                 JOptionPane.showMessageDialog(this, "Usuario actualizado con éxito", "Usuario Actualizado", JOptionPane.INFORMATION_MESSAGE);
                 CompositorLimpio();
             }
-            
-            
-            
+
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(
-                        this,
-                        "El RUN, número de calle o teléfono contiene valores inválidos.",
-                        "Valores invalidos",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return;
+                    this,
+                    "El RUN, número de calle o teléfono contiene valores inválidos.",
+                    "Valores invalidos",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
         }
-            
-        
+
+
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         JMMV_ListadoUsuarios listado = new JMMV_ListadoUsuarios();
         listado.setTitle("Listado de Clientes");
-            listado.setLocationRelativeTo(null);
-            listado.setVisible(true);
-            this.dispose();
+        listado.setLocationRelativeTo(null);
+        listado.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void CargarComunas() {
-        
+
         List<String> comunas = controlador.JMMV_ObtenerComunasActivas();
 
         for (String comuna : comunas) {

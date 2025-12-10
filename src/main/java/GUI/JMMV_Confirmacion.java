@@ -1,10 +1,8 @@
-
 package GUI;
 
 import controlador.JMMV_Controlador;
 import javax.swing.JOptionPane;
 import logica.*;
-
 
 public class JMMV_Confirmacion extends javax.swing.JDialog {
 
@@ -12,23 +10,23 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
     private JMMV_Bicicleta bicicleta;
     private JMMV_Reserva reserva;
     private int picker;
-    
+
     JMMV_Controlador controlador = new JMMV_Controlador();
-    
+
     public JMMV_Confirmacion(java.awt.Frame parent, boolean modal, JMMV_Cliente cliente) {
         super(parent, modal);
         initComponents();
         this.cliente = cliente;
         this.picker = 1;
     }
-    
+
     public JMMV_Confirmacion(java.awt.Frame parent, boolean modal, JMMV_Bicicleta bicicleta) {
         super(parent, modal);
         initComponents();
         this.bicicleta = bicicleta;
         this.picker = 0;
     }
-    
+
     public JMMV_Confirmacion(java.awt.Frame parent, boolean modal, JMMV_Reserva reserva) {
         super(parent, modal);
         initComponents();
@@ -155,10 +153,35 @@ public class JMMV_Confirmacion extends javax.swing.JDialog {
     }//GEN-LAST:event_btnSiActionPerformed
 
     private void btnNoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNoActionPerformed
-        this.dispose();
+        switch (picker) {
+            case 0 -> {
+                JMMV_GestionBicicleta gestionBicicleta = new JMMV_GestionBicicleta();
+                gestionBicicleta.setTitle("Gestión Bicicleta");
+                gestionBicicleta.setLocationRelativeTo(null);
+                gestionBicicleta.setResizable(false);
+                gestionBicicleta.setVisible(true);
+                this.dispose();
+            }
+            case 1 -> {
+                JMMV_GestionUsuarios gestionUsuarios = new JMMV_GestionUsuarios();
+                gestionUsuarios.setTitle("Gestion Usuarios");
+                gestionUsuarios.setLocationRelativeTo(null);
+                gestionUsuarios.setResizable(false);
+                gestionUsuarios.setVisible(true);
+                this.dispose();
+            }
+            case 2 -> {
+                JMMV_GestionReserva gestionReservas = new JMMV_GestionReserva();
+                gestionReservas.setTitle("Gestion Reservas");
+                gestionReservas.setLocationRelativeTo(null);
+                gestionReservas.setResizable(false);
+                gestionReservas.setVisible(true);
+                this.dispose();
+            }
+        }
     }//GEN-LAST:event_btnNoActionPerformed
 
-    
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnNo;

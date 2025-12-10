@@ -1,4 +1,3 @@
-
 package GUI;
 
 import DAO.JMMV_UsuarioDAO;
@@ -9,16 +8,16 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.swing.JOptionPane;
 
-
 public class JMMV_Login extends javax.swing.JFrame {
 
     JMMV_Controlador controlador = new JMMV_Controlador();
+
     public JMMV_Login() {
         initComponents();
         controlador.InitReservas();
-        
+
     }
-    
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -160,7 +159,7 @@ public class JMMV_Login extends javax.swing.JFrame {
         } catch (SQLException ex) {
             Logger.getLogger(JMMV_Login.class.getName()).log(Level.SEVERE, null, ex);
         }
-        
+
     }//GEN-LAST:event_jButton1ActionPerformed
 
     /**

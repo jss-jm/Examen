@@ -1,17 +1,15 @@
-
 package GUI;
-
 
 import controlador.JMMV_Controlador;
 import java.util.List;
 import javax.swing.JOptionPane;
 import logica.JMMV_Bicicleta;
 
-
 public class JMMV_GestionBicicleta extends javax.swing.JFrame {
 
     private JMMV_Bicicleta bicicleta;
     JMMV_Controlador controlador = new JMMV_Controlador();
+
     public JMMV_GestionBicicleta() {
         initComponents();
         CargarTipos();
@@ -22,14 +20,13 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         initComponents();
         CargarTipos();
         this.bicicleta = bicicleta;
-        btnModificar.setVisible(false);
+        btnModificar.setText("Seleccionar otro");
         btnCrear.setText("Modificar");
         tfNombre.setText(bicicleta.getJMMV_Bicicleta_nombre());
         cBoxTipos.setSelectedItem(bicicleta.getJMMV_Bicicleta_tipoBicicleta());
         chBoxDisponible.setSelected(bicicleta.isJMMV_Bicicleta_estaDisponible());
-        
-    }
 
+    }
 
     /**
      * This method is called from within the constructor to initialize the form.
@@ -140,38 +137,36 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
                             .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE))))
-                .addContainerGap(19, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                .addContainerGap(70, Short.MAX_VALUE)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnHome)
-                        .addGap(134, 134, 134))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addComponent(lbNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(16, 16, 16)
-                                .addComponent(lbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(cBoxTipos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGroup(jPanel1Layout.createSequentialGroup()
-                                .addGap(22, 22, 22)
-                                .addComponent(btnModificar)
-                                .addGap(21, 21, 21)
-                                .addComponent(btnEliminar)
-                                .addGap(18, 18, 18)
-                                .addComponent(btnListar)))
-                        .addGap(30, 30, 30)
+                        .addContainerGap(70, Short.MAX_VALUE)
+                        .addComponent(lbNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(tfNombre, javax.swing.GroupLayout.PREFERRED_SIZE, 30, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(15, 15, 15)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                            .addComponent(lbDisponibilidad)
-                            .addComponent(chBoxDisponible))
-                        .addGap(45, 45, 45)))
+                            .addComponent(lbTipo, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnHome))
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                        .addComponent(cBoxTipos, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(30, 30, 30))
+                    .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(87, 87, 87)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(18, 18, 18)
+                        .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)))
+                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(lbDisponibilidad)
+                    .addComponent(chBoxDisponible))
+                .addGap(45, 45, 45)
                 .addComponent(btnCrear)
                 .addGap(31, 31, 31))
         );
@@ -202,9 +197,9 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
     }//GEN-LAST:event_btnHomeActionPerformed
 
     private void btnEliminarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnEliminarActionPerformed
-        if(bicicleta == null) {
-            JMMV_Buscador buscador = new JMMV_Buscador(this,true,1,1);
-            buscador.setTitle("Buscar Usuario");
+        if (bicicleta == null) {
+            JMMV_Buscador buscador = new JMMV_Buscador(this, true, 0, 1);
+            buscador.setTitle("Buscar Bicicleta");
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
             buscador.setVisible(true);
@@ -217,23 +212,23 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
             confirmar.setVisible(true);
             this.dispose();
         }
-                             
+
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-            JMMV_ListadoBicicleta listado = new JMMV_ListadoBicicleta();
-            listado.setTitle("Buscar Bicicleta");
-            listado.setLocationRelativeTo(null);
-            listado.setResizable(false);
-            listado.setVisible(true);
-            this.dispose();
+        JMMV_ListadoBicicleta listado = new JMMV_ListadoBicicleta();
+        listado.setTitle("Buscar Bicicleta");
+        listado.setLocationRelativeTo(null);
+        listado.setResizable(false);
+        listado.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
     private void btnCrearActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearActionPerformed
         String nombre = tfNombre.getText();
-        String tipo = (String)cBoxTipos.getSelectedItem();
+        String tipo = (String) cBoxTipos.getSelectedItem();
         boolean disponible = chBoxDisponible.isSelected();
-        
+
         if (nombre.isEmpty() || tipo.equals("-1")) {
             JOptionPane.showMessageDialog(
                     this,
@@ -244,52 +239,60 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
 
             return;
         }
-        
+
         try {
             if (bicicleta == null) {
                 //solo se eliminó el valor de la descripción
                 bicicleta = new JMMV_Bicicleta(nombre, tipo, disponible, true);
-                controlador.JMMV_AgregarBicicleta(bicicleta);
-                JOptionPane.showMessageDialog(this, "Bicicleta agregada con éxito", "Bicicleta Agregada", JOptionPane.INFORMATION_MESSAGE);
-                this.bicicleta = null;
-                CompositorLimpio();
-                
+                boolean exito = controlador.JMMV_AgregarBicicleta(bicicleta);
+                if (!exito) {
+                    JOptionPane.showMessageDialog(this, "Bicicleta duplicada, intente con otro nombre", "BICICLETA DUPLICADA", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Bicicleta agregada con éxito", "Bicicleta Agregada", JOptionPane.INFORMATION_MESSAGE);
+                    this.bicicleta = null;
+                    CompositorLimpio();
+                }
+
             } else {
                 bicicleta.setJMMV_Bicicleta_nombre(nombre);
                 bicicleta.setJMMV_Bicicleta_tipoBicicleta(tipo);
                 bicicleta.setJMMV_Bicicleta_estaDisponible(disponible);
-                controlador.JMMV_ActualizarBicicleta(bicicleta);
-                JOptionPane.showMessageDialog(this, "Bicicleta actualizada con éxito", "Bicicleta Actualizada", JOptionPane.INFORMATION_MESSAGE);
-                CompositorLimpio();
+                boolean exito = controlador.JMMV_ActualizarBicicleta(bicicleta);
+                if (!exito) {
+                    JOptionPane.showMessageDialog(this, "No se pudo actualizar la bicicleta, intente nuevamente", "FALLO AL ACTUALIZAR", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "Bicicleta actualizada con éxito", "Bicicleta Actualizada", JOptionPane.INFORMATION_MESSAGE);
+                    CompositorLimpio();
+                }
             }
         } catch (Exception e) {
             JOptionPane.showMessageDialog(
-                        this,
-                        "Existe un problema con los datos, intente nuevamente.",
-                        "Valores invalidos",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return;
+                    this,
+                    "Existe un problema con los datos, intente nuevamente.",
+                    "Valores invalidos",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
         }
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         JMMV_ListadoBicicleta listado = new JMMV_ListadoBicicleta();
         listado.setTitle("Listado de Bicicletas");
-            listado.setLocationRelativeTo(null);
-            listado.setVisible(true);
-            this.dispose();
+        listado.setLocationRelativeTo(null);
+        listado.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void CargarTipos() {
-        
+
         List<String> tipos = controlador.JMMV_ObtenerTiposDeBicicletaActivos();
 
         for (String tipo : tipos) {
             cBoxTipos.addItem(tipo);
         }
     }
-    
+
     private void CompositorLimpio() {
         JMMV_GestionBicicleta gestionBicicleta = new JMMV_GestionBicicleta();
         gestionBicicleta.setTitle("Gestión Bicicleta");
@@ -298,7 +301,7 @@ public class JMMV_GestionBicicleta extends javax.swing.JFrame {
         gestionBicicleta.setVisible(true);
         this.dispose();
     }
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrear;

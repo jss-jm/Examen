@@ -14,16 +14,16 @@ import javax.swing.table.DefaultTableModel;
 import logica.JMMV_Bicicleta;
 
 public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
-    
+
     JMMV_Controlador controlador = new JMMV_Controlador();
     private JMMV_Bicicleta bicicleta;
+
     public JMMV_ListadoBicicleta() {
         initComponents();
         CargarTabla();
         SeleccionadorDeTabla(tbListado);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -198,22 +198,22 @@ public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_tbListadoMouseClicked
 
-   private void CargarTabla() {
-       List <JMMV_Bicicleta> bicicletasActivas = controlador.JMMV_ObtenerTodasLasBicicletasActivas();
-       DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
-       for (JMMV_Bicicleta bicicleta : bicicletasActivas) {
+    private void CargarTabla() {
+        List<JMMV_Bicicleta> bicicletasActivas = controlador.JMMV_ObtenerTodasLasBicicletasActivas();
+        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
+        for (JMMV_Bicicleta bicicleta : bicicletasActivas) {
             String disponible = "";
-            if(bicicleta.isJMMV_Bicicleta_estaDisponible()) {
+            if (bicicleta.isJMMV_Bicicleta_estaDisponible()) {
                 disponible = "Disponible";
-            }   else {
+            } else {
                 disponible = "No Disponible";
-                }
-           modelo.addRow(new Object[]{bicicleta.getJMMV_Bicicleta_nombre(), bicicleta.getJMMV_Bicicleta_tipoBicicleta(), disponible});
-       }
-   }
-   
-   private void SeleccionadorDeTabla(JTable tabla) {
-       ListSelectionModel selectionModel = tabla.getSelectionModel();
+            }
+            modelo.addRow(new Object[]{bicicleta.getJMMV_Bicicleta_nombre(), bicicleta.getJMMV_Bicicleta_tipoBicicleta(), disponible});
+        }
+    }
+
+    private void SeleccionadorDeTabla(JTable tabla) {
+        ListSelectionModel selectionModel = tabla.getSelectionModel();
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -232,8 +232,8 @@ public class JMMV_ListadoBicicleta extends javax.swing.JFrame {
                 }
             }
         });
-   }
-  
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInicio;

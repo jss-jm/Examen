@@ -15,20 +15,19 @@ import logica.JMMV_Cliente;
 
 import logica.JMMV_Reserva;
 
-
 public class JMMV_ListadoReservas extends javax.swing.JFrame {
-    
+
     JMMV_Controlador controlador = new JMMV_Controlador();
     JMMV_Reserva reserva;
-    List <JMMV_Cliente> cliente;
-    List <JMMV_Reserva> listaReservas;
+    List<JMMV_Cliente> cliente;
+    List<JMMV_Reserva> listaReservas;
+
     public JMMV_ListadoReservas() {
         initComponents();
         CargarTabla();
         SeleccionadorDeTabla(tbListado);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -195,16 +194,16 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_lbListadoMouseClicked
 
-   private void CargarTabla() {
-       List <JMMV_Reserva> ReservasActivas = controlador.JMMV_ObtenerTodasLasReservasActivas();
-       DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
-       for (JMMV_Reserva reserva : ReservasActivas) {
-           modelo.addRow(new Object[]{reserva.getJMMV_Reserva_nomCliente(), reserva.getJMMV_Reserva_nomBicicleta(), reserva.getJMMV_Reserva_fechaInicio(), reserva.getJMMV_Reserva_fechaFin()});
-       }
-   }
-   
-   private void SeleccionadorDeTabla(JTable tabla) {
-       ListSelectionModel selectionModel = tabla.getSelectionModel();
+    private void CargarTabla() {
+        List<JMMV_Reserva> ReservasActivas = controlador.JMMV_ObtenerTodasLasReservasActivas();
+        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
+        for (JMMV_Reserva reserva : ReservasActivas) {
+            modelo.addRow(new Object[]{reserva.getJMMV_Reserva_nomCliente(), reserva.getJMMV_Reserva_nomBicicleta(), reserva.getJMMV_Reserva_fechaInicio(), reserva.getJMMV_Reserva_fechaFin()});
+        }
+    }
+
+    private void SeleccionadorDeTabla(JTable tabla) {
+        ListSelectionModel selectionModel = tabla.getSelectionModel();
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -224,12 +223,13 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
                         gestionReserva.setResizable(false);
                         gestionReserva.setLocationRelativeTo(null);
                         gestionReserva.setVisible(true);
+                        JMMV_ListadoReservas.this.dispose();
                     }
                 }
             }
         });
-   }
-  
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInicio;

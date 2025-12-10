@@ -14,19 +14,18 @@ import javax.swing.table.DefaultTableModel;
 import logica.JMMV_Cliente;
 
 public class JMMV_ListadoUsuarios extends javax.swing.JFrame {
-    
+
     JMMV_Controlador controlador = new JMMV_Controlador();
     String nombreCliente = "";
     List<JMMV_Cliente> cliente;
-    
+
     public JMMV_ListadoUsuarios() {
-        
+
         initComponents();
         CargarTabla();
         SeleccionadorDeTabla(tbListado);
     }
 
-    
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -131,22 +130,22 @@ public class JMMV_ListadoUsuarios extends javax.swing.JFrame {
 
     private void tbListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbListadoMouseClicked
 
-            this.dispose();
+        this.dispose();
 
     }//GEN-LAST:event_tbListadoMouseClicked
 
-   private void CargarTabla() {
-       List <JMMV_Cliente> clientesActivos = controlador.JMMV_ObtenerTodosLosClientesActivos();
-       DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
-       for (JMMV_Cliente cliente : clientesActivos) {
-           modelo.addRow(new Object[]{cliente.getJMMV_Cliente_nombres(), cliente.getJMMV_Cliente_apellidoPaterno(),
-           cliente.getJMMV_Cliente_apellidoMaterno(), cliente.getJMMV_Cliente_run(), cliente.getJMMV_Cliente_comuna(),
-           cliente.getJMMV_Cliente_calle(), cliente.getJMMV_Cliente_numCalle(), cliente.getJMMV_Cliente_correo(), cliente.getJMMV_Cliente_telefono()});
-       }
-   }
-   
-   private void SeleccionadorDeTabla(JTable tabla) {
-       ListSelectionModel selectionModel = tabla.getSelectionModel();
+    private void CargarTabla() {
+        List<JMMV_Cliente> clientesActivos = controlador.JMMV_ObtenerTodosLosClientesActivos();
+        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
+        for (JMMV_Cliente cliente : clientesActivos) {
+            modelo.addRow(new Object[]{cliente.getJMMV_Cliente_nombres(), cliente.getJMMV_Cliente_apellidoPaterno(),
+                cliente.getJMMV_Cliente_apellidoMaterno(), cliente.getJMMV_Cliente_run(), cliente.getJMMV_Cliente_comuna(),
+                cliente.getJMMV_Cliente_calle(), cliente.getJMMV_Cliente_numCalle(), cliente.getJMMV_Cliente_correo(), cliente.getJMMV_Cliente_telefono()});
+        }
+    }
+
+    private void SeleccionadorDeTabla(JTable tabla) {
+        ListSelectionModel selectionModel = tabla.getSelectionModel();
         selectionModel.addListSelectionListener(new ListSelectionListener() {
             @Override
             public void valueChanged(ListSelectionEvent e) {
@@ -166,8 +165,8 @@ public class JMMV_ListadoUsuarios extends javax.swing.JFrame {
                 }
             }
         });
-   }
-  
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnInicio;

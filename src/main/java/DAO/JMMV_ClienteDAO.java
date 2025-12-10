@@ -537,6 +537,7 @@ public class JMMV_ClienteDAO {
 
                     //obtener datos
                     int JMMV_idCliente = rs.getInt("id_cliente");
+                    System.out.println("ID SQL | " + JMMV_idCliente);
                     int JMMV_idUsuario = rs.getInt("id_usuario");
                     String JMMV_nomUsuario = rs.getString("nombre_usuario");
                     String JMMV_contrasena = rs.getString("contrasena");
@@ -552,7 +553,9 @@ public class JMMV_ClienteDAO {
 
                     //crear objeto de la clase 
                     JMMV_Cliente cliente = new JMMV_Cliente(JMMV_idCliente, JMMV_idUsuario, JMMV_nomUsuario, JMMV_contrasena, JMMV_correo, JMMV_run, JMMV_nombres, JMMV_apellidoPaterno, JMMV_apellidoMaterno, JMMV_comuna, JMMV_calle, JMMV_numCalle, JMMV_telefono);
-
+                    System.out.println("id cliente de sql | " + cliente.getJMMV_Cliente_idCliente());
+                    System.out.println("nombre cliente de sql | " + cliente.getJMMV_Cliente_nombres());
+                    System.out.println("run cliente de sql | " + cliente.getJMMV_Cliente_run());
                     //agregar cliente a lista
                     listaClientes.add(cliente);
                     System.out.println("Lista clientes de sql | " + listaClientes.size());

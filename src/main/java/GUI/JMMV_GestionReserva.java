@@ -1,6 +1,4 @@
-
 package GUI;
-
 
 import controlador.JMMV_Controlador;
 import java.time.DateTimeException;
@@ -12,18 +10,18 @@ import logica.JMMV_Cliente;
 import logica.JMMV_Reserva;
 import logica.JMMV_TimeMachine;
 
-
 public class JMMV_GestionReserva extends javax.swing.JFrame {
 
     private JMMV_Reserva reserva;
     JMMV_Controlador controlador = new JMMV_Controlador();
     JMMV_TimeMachine timeMachine = new JMMV_TimeMachine();
-    Date comprobacion = new Date(1735732861000L);
-    
+    Date comprobacion = new Date();
+
     public JMMV_GestionReserva() {
         initComponents();
         CargarBicicletas();
         CargarClientes();
+        comprobacion = timeMachine.asDate(LocalDate.now());
         dcInicio.setDate(comprobacion);
         dcTermino.setDate(comprobacion);
         this.reserva = null;
@@ -35,6 +33,9 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
         CargarClientes();
         System.out.println("aca entre 2");
         this.reserva = reserva;
+        btnCrear.setText("Modificar");
+        btnModificar.setText("Seleccionar otro");
+        comprobacion = timeMachine.asDate(LocalDate.now());
         cBoxBicicletas.setSelectedItem(reserva.getJMMV_Reserva_nomBicicleta());
         cBoxClientes.setSelectedItem(reserva.getJMMV_Reserva_nomCliente());
         dcInicio.setDate(timeMachine.asDate(reserva.getJMMV_Reserva_fechaInicio()));
@@ -43,11 +44,12 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
     }
 
     public JMMV_GestionReserva(List<JMMV_Reserva> reservas) {
-        
+
         initComponents();
         CargarBicicletas();
         CargarClientesDeReserva(reservas);
         System.out.println("aca entre 3");
+        comprobacion = timeMachine.asDate(LocalDate.now());
         dcInicio.setDate(comprobacion);
         dcTermino.setDate(comprobacion);
         this.reserva = null;
@@ -164,32 +166,34 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
                             .addComponent(dcTermino, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCrear, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
                                 .addComponent(btnHome)
-                                .addGap(23, 23, 23)))
-                        .addGap(77, 77, 77))))
+                                .addGap(100, 100, 100))
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                .addComponent(btnCrear, javax.swing.GroupLayout.PREFERRED_SIZE, 207, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(57, 57, 57))))))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(60, 60, 60)
-                .addComponent(lbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(2, 2, 2)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(60, 60, 60)
+                        .addComponent(lbClientes, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(2, 2, 2)
                         .addComponent(cBoxClientes, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(33, 33, 33)
                         .addComponent(lbBicicletas, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(cBoxBicicletas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addComponent(btnModificar)
-                        .addGap(11, 11, 11)
-                        .addComponent(btnEliminar)
-                        .addGap(18, 18, 18)
-                        .addComponent(btnListar)))
-                .addGap(27, 27, 27)
+                        .addGap(78, 78, 78)
+                        .addComponent(btnModificar, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                        .addComponent(btnEliminar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addGap(12, 12, 12)
+                        .addComponent(btnListar, javax.swing.GroupLayout.PREFERRED_SIZE, 45, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(16, 16, 16)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
                         .addComponent(lbInicio, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -203,7 +207,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
                         .addComponent(btnHome)
                         .addGap(35, 35, 35)
                         .addComponent(btnCrear)))
-                .addContainerGap(52, Short.MAX_VALUE))
+                .addContainerGap(41, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
@@ -263,7 +267,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
         Date fechaInic = dcInicio.getDate();
         Date fechaTer = dcTermino.getDate();
 
-        if (nombres.isEmpty() || bicicleta.isEmpty() || fechaInic.equals(comprobacion) || fechaTer.equals(comprobacion)) {
+        if (nombres.isEmpty() || bicicleta.isEmpty()) {
             JOptionPane.showMessageDialog(
                     this,
                     "Todos los campos son obligatorios.",
@@ -278,86 +282,115 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
             LocalDate fechaTerConv = timeMachine.asLocalDate(fechaTer);
             List<JMMV_Cliente> cliente = controlador.JMMV_ObtenerClienteDeCBox(nombres);
             int idCliente = cliente.get(0).getJMMV_Cliente_idCliente();
-            System.out.println("id del cliente | " + idCliente);
             int idBicicleta = controlador.JMMV_ObtenerIdBicicletaPorNombre(bicicleta);
             int numReservas = controlador.JMMV_ContarReservasVigentesDeClientes(cliente.get(0).getJMMV_Cliente_nombres());
-            System.out.println("Numero de reservas | " + numReservas);
 
             if (numReservas == -1) {
                 return;
-            } else if (numReservas > 0) {
-                JOptionPane.showMessageDialog(
-                        this,
-                        "El cliente ya cuenta con una reserva activa, intente con otro",
-                        "Reserva activa",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return;
             } else {
                 if (reserva == null) {
+                    if (numReservas > 0) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "El cliente ya cuenta con una reserva activa, intente con otro",
+                                "Reserva activa",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }
+                    
+                    if (fechaTer.before(comprobacion)) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "La fecha de termino no puede ser inferior a la fecha de hoy. Reintente con una fecha nueva.",
+                                "ERROR DE FECHA",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }
                     reserva = new JMMV_Reserva(idCliente, nombres, idBicicleta, bicicleta, fechaInicConv, fechaTerConv);
-                    controlador.JMMV_AgregarReserva(reserva);
-                    JOptionPane.showMessageDialog(this, "Reserva agregada con éxito", "Reserva Agregada", JOptionPane.INFORMATION_MESSAGE);
-                    CompositorLimpio();
+                    boolean exito = controlador.JMMV_AgregarReserva(reserva);
+                    if (!exito) {
+                        JOptionPane.showMessageDialog(this, "No se pudo crear la reserva, intente nuevamene", "ERROR AL AGREGAR RESERVA", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Reserva agregada con éxito", "Reserva Agregada", JOptionPane.INFORMATION_MESSAGE);
+                        CompositorLimpio();
+                    }
+
                 } else {
+                    
+                    if (fechaTer.before(comprobacion)) {
+                        JOptionPane.showMessageDialog(
+                                this,
+                                "La fecha de termino no puede ser inferior a la fecha de hoy. Reintente con una fecha nueva.",
+                                "ERROR DE FECHA",
+                                JOptionPane.ERROR_MESSAGE
+                        );
+                        return;
+                    }
+                    
                     reserva.setJMMV_Reserva_nomCliente(nombres);
                     reserva.setJMMV_Reserva_idCliente(idCliente);
                     reserva.setJMMV_Reserva_nomBicicleta(bicicleta);
                     reserva.setJMMV_Reserva_idBicicleta(idBicicleta);
                     reserva.setJMMV_Reserva_fechaInicio(fechaInicConv);
                     reserva.setJMMV_Reserva_fechaFin(fechaTerConv);
-                    controlador.JMMV_ActualizarReserva(reserva);
-                    JOptionPane.showMessageDialog(this, "Reserva actualizada con éxito", "Reserva Actualizada", JOptionPane.INFORMATION_MESSAGE);
-                    CompositorLimpio();
+                    boolean exito = controlador.JMMV_ActualizarReserva(reserva);
+                    if (!exito) {
+                        JOptionPane.showMessageDialog(this, "No se pudo acualizar la reserva, intente nuevamene", "ERROR AL ACTUALIZAR RESERVA", JOptionPane.ERROR_MESSAGE);
+                    } else {
+                        JOptionPane.showMessageDialog(this, "Reserva actualizada con éxito", "Reserva Actualizada", JOptionPane.INFORMATION_MESSAGE);
+                        CompositorLimpio();
+                    }
+
                 }
 
             }
 
-
         } catch (DateTimeException e) {
             JOptionPane.showMessageDialog(
-                        this,
-                        "Existe un error en la selección de fechas, favor reintentar.",
-                        "Valores invalidos",
-                        JOptionPane.ERROR_MESSAGE
-                );
-                return;
+                    this,
+                    "Existe un error en la selección de fechas, favor reintentar.",
+                    "Valores invalidos",
+                    JOptionPane.ERROR_MESSAGE
+            );
+            return;
         }
-        
+
     }//GEN-LAST:event_btnCrearActionPerformed
 
     private void btnListarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnListarActionPerformed
         JMMV_ListadoReservas listado = new JMMV_ListadoReservas();
         listado.setTitle("Listado de Reservas");
         listado.setLocationRelativeTo(null);
-            listado.setVisible(true);
-            this.dispose();
+        listado.setVisible(true);
+        this.dispose();
     }//GEN-LAST:event_btnListarActionPerformed
 
     private void CargarBicicletas() {
-        
+
         List<String> bicicletas = controlador.JMMV_ObtenerNombresBicicletasActivas();
 
         for (String bicicleta : bicicletas) {
             cBoxBicicletas.addItem(bicicleta);
         }
     }
-    
+
     private void CargarClientes() {
-        
+
         List<String> clientes = controlador.JMMV_ObtenerNombresCompletosClientesActivos();
 
         for (String cliente : clientes) {
             cBoxClientes.addItem(cliente);
         }
     }
-    
-    private void CargarClientesDeReserva(List <JMMV_Reserva> reservas) {
+
+    private void CargarClientesDeReserva(List<JMMV_Reserva> reservas) {
         for (JMMV_Reserva reserva : reservas) {
             cBoxClientes.addItem(reserva.getJMMV_Reserva_nomCliente());
         }
     }
-    
+
     private void CompositorLimpio() {
         JMMV_GestionReserva gestionReservas = new JMMV_GestionReserva();
         gestionReservas.setTitle("Gestion Reservas");
@@ -366,7 +399,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
         gestionReservas.setVisible(true);
         this.dispose();
     }
- 
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrear;

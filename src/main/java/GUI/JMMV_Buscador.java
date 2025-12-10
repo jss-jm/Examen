@@ -22,15 +22,28 @@ public class JMMV_Buscador extends javax.swing.JDialog {
     private int ventanaPadre;
     private int eliminar;
     JMMV_Controlador controlador = new JMMV_Controlador();
-    public JMMV_Buscador(java.awt.Frame parent, boolean modal,int ventanaPadre, int eliminar) {
+
+    public JMMV_Buscador(java.awt.Frame parent, boolean modal, int ventanaPadre, int eliminar) {
         super(parent, modal);
         initComponents();
         switch (ventanaPadre) {
-            case 0 ->{lbBuscar.setText("Buscar Bicicleta por nombre"); this.ventanaPadre = ventanaPadre; this.eliminar = eliminar; }
-            case 1 -> {lbBuscar.setText("Buscar Cliente por nombre:"); this.ventanaPadre = ventanaPadre; this.eliminar = eliminar;}
-            case 2 -> {lbBuscar.setText("Buscar Reserva por nombre de cliente;"); this.ventanaPadre = ventanaPadre; this.eliminar = eliminar;}
+            case 0 -> {
+                lbBuscar.setText("Buscar Bicicleta por nombre");
+                this.ventanaPadre = ventanaPadre;
+                this.eliminar = eliminar;
+            }
+            case 1 -> {
+                lbBuscar.setText("Buscar Cliente por nombre:");
+                this.ventanaPadre = ventanaPadre;
+                this.eliminar = eliminar;
+            }
+            case 2 -> {
+                lbBuscar.setText("Buscar Reserva por nombre de cliente;");
+                this.ventanaPadre = ventanaPadre;
+                this.eliminar = eliminar;
+            }
             default -> {
-                JOptionPane.showMessageDialog(null,"Error de inicialización", "ERROR DE SELECCION", JOptionPane.ERROR_MESSAGE);
+                JOptionPane.showMessageDialog(null, "Error de inicialización", "ERROR DE SELECCION", JOptionPane.ERROR_MESSAGE);
             }
         }
     }
@@ -133,14 +146,14 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                 //
             }
             case 1 -> {
-                List <JMMV_Cliente> cliente = controlador.JMMV_ObtenerClientePorNombre(tfBuscar.getText().toLowerCase());
+                List<JMMV_Cliente> cliente = controlador.JMMV_ObtenerClientePorNombre(tfBuscar.getText());
                 System.out.println(cliente.size());
-                if(cliente.isEmpty()) {
+                if (cliente.isEmpty()) {
                     JOptionPane.showMessageDialog(this, "No se encontro al cliente, intente nuevamente", "CLIENTE NO ENCONTRADO", JOptionPane.ERROR_MESSAGE);
                 } else {
                     if (cliente.size() > 1) {
                         int run = Integer.parseInt(JOptionPane.showInputDialog(this, "Existe más de un usuario con esta combinación de nombres, favor ingresar el run del cliente."));
-                        List <JMMV_Cliente> clienteRun = controlador.JMMV_ObtenerClientePorRun(run);
+                        List<JMMV_Cliente> clienteRun = controlador.JMMV_ObtenerClientePorRun(run);
                         System.out.println("Cliente encontrado");
                         if (eliminar == 0) {
                             JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
@@ -155,8 +168,8 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                             confirmacion.setLocationRelativeTo(null);
                             confirmacion.setResizable(false);
                             confirmacion.setVisible(true);
-                           this.dispose();
-                            
+                            this.dispose();
+
                         }
                     } else if (cliente.size() == 1) {
                         if (eliminar == 0) {
@@ -173,24 +186,25 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                             confirmacion.setResizable(false);
                             confirmacion.setVisible(true);
                             this.dispose();
-                            
+
                         }
-                    } 
+                    }
                 }
             }
             case 2 -> {
-                List <JMMV_Reserva> reserva = controlador.JMMV_ObtenerTodasLasReservasActivas();
+                List<JMMV_Cliente> cliente = controlador.JMMV_ObtenerClientePorNombre(tfBuscar.getText());
+                List<JMMV_Reserva> reserva = controlador.JMMV_ObtenerTodasLasReservasActivasDeCliente(cliente.get(0).getJMMV_Cliente_idCliente());
                 if (reserva.isEmpty()) {
-                    JOptionPane.showMessageDialog(this, "No se encontro al cliente, intente nuevamente", "CLIENTE NO ENCONTRADO", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(this, "No se encontro la reserva, intente nuevamente", "RESERVA NO ENCONTRADA", JOptionPane.ERROR_MESSAGE);
                 } else {
                     if (reserva.size() >= 1) {
                         if (eliminar == 0) {
                             JMMV_GestionReserva gestionReserva = new JMMV_GestionReserva(reserva.get(0));
-                        gestionReserva.setTitle("Gestión Reserva");
-                        gestionReserva.setLocationRelativeTo(null);
-                        gestionReserva.setResizable(false);
-                        gestionReserva.setVisible(true);
-                        this.dispose();
+                            gestionReserva.setTitle("Gestión Reserva");
+                            gestionReserva.setLocationRelativeTo(null);
+                            gestionReserva.setResizable(false);
+                            gestionReserva.setVisible(true);
+                            this.dispose();
                         } else {
                             JMMV_Confirmacion confirmacion = new JMMV_Confirmacion(null, true, reserva.get(0));
                             confirmacion.setTitle("Eliminar Reserva");
@@ -199,7 +213,7 @@ public class JMMV_Buscador extends javax.swing.JDialog {
                             confirmacion.setVisible(true);
                             this.dispose();
                         }
-                        
+
                     }
                 }
             }
@@ -208,7 +222,7 @@ public class JMMV_Buscador extends javax.swing.JDialog {
         }
     }//GEN-LAST:event_btnBuscarActionPerformed
 
-   
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnBuscar;
