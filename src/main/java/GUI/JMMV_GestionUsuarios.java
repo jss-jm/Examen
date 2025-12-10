@@ -355,6 +355,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
             confirmar.setLocationRelativeTo(null);
             confirmar.setResizable(false);
             confirmar.setVisible(true);
+            this.dispose();
         }
     }//GEN-LAST:event_btnEliminarActionPerformed
 
@@ -423,9 +424,11 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                 //que no se hace en la BD.
                 //solución:
                 this.cliente = null;
+                CompositorLimpio();
                 } else {
                      JOptionPane.showMessageDialog(this, "Error de inserción, intente nuevamente");
                      this.cliente = null;
+                     CompositorLimpio();
                 }
                 
                 
@@ -445,7 +448,7 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
                 System.out.println("Test | ID usuario BOTON crear 2 : "+cliente.getJMMV_Cliente_idUsuario());
                 controlador.JMMV_ActualizarCliente(cliente);
                 JOptionPane.showMessageDialog(this, "Usuario actualizado con éxito", "Usuario Actualizado", JOptionPane.INFORMATION_MESSAGE);
-                
+                CompositorLimpio();
             }
             
             
@@ -479,7 +482,16 @@ public class JMMV_GestionUsuarios extends javax.swing.JFrame {
             cBoxComunas.addItem(comuna);
         }
     }
- 
+
+    private void CompositorLimpio() {
+        JMMV_GestionUsuarios gestionUsuarios = new JMMV_GestionUsuarios();
+        gestionUsuarios.setTitle("Gestion Usuarios");
+        gestionUsuarios.setLocationRelativeTo(null);
+        gestionUsuarios.setResizable(false);
+        gestionUsuarios.setVisible(true);
+        this.dispose();
+    }
+
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrear;

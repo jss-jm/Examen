@@ -679,7 +679,7 @@ public class JMMV_ClienteDAO {
                 + "COUNT(*) "
                 + "FROM JMMV_reservas r "
                 + "JOIN jmmv_clientes c "
-                + "WHERE c.JMMV_clientes_id_cliente = ? && r.JMMV_reservas_fecha_fin >= NOW() && c.JMMV_clientes_esta_activo = ?";
+                + "WHERE c.JMMV_clientes_id_cliente = ? AND r.JMMV_reservas_esta_activo = true AND c.JMMV_clientes_esta_activo = ?";
 
         try (Connection conn = conexion.JMMV_Conectar(); PreparedStatement pstmt = conn.prepareStatement(sql)) {
 

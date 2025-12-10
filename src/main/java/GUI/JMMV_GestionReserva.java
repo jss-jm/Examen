@@ -33,6 +33,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
         initComponents();
         CargarBicicletas();
         CargarClientes();
+        System.out.println("aca entre 2");
         this.reserva = reserva;
         cBoxBicicletas.setSelectedItem(reserva.getJMMV_Reserva_nomBicicleta());
         cBoxClientes.setSelectedItem(reserva.getJMMV_Reserva_nomCliente());
@@ -42,9 +43,11 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
     }
 
     public JMMV_GestionReserva(List<JMMV_Reserva> reservas) {
+        
         initComponents();
         CargarBicicletas();
         CargarClientesDeReserva(reservas);
+        System.out.println("aca entre 3");
         dcInicio.setDate(comprobacion);
         dcTermino.setDate(comprobacion);
         this.reserva = null;
@@ -233,22 +236,24 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
             buscador.setLocationRelativeTo(null);
             buscador.setResizable(false);
             buscador.setVisible(true);
+            this.dispose();
         } else {
             JMMV_Confirmacion confirmar = new JMMV_Confirmacion(this, true, reserva);
             confirmar.setTitle("Confirmar eliminación");
             confirmar.setLocationRelativeTo(null);
             confirmar.setResizable(false);
             confirmar.setVisible(true);
+            this.dispose();
         }
 
     }//GEN-LAST:event_btnEliminarActionPerformed
 
     private void btnModificarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModificarActionPerformed
-        JMMV_Buscador buscador = new JMMV_Buscador(this, true, 2, 0);
-        buscador.setTitle("Buscar Reserva");
-        buscador.setLocationRelativeTo(null);
-        buscador.setResizable(false);
-        buscador.setVisible(true);
+        JMMV_ListadoReservas listado = new JMMV_ListadoReservas();
+        listado.setTitle("Buscar Reserva");
+        listado.setLocationRelativeTo(null);
+        listado.setResizable(false);
+        listado.setVisible(true);
         this.dispose();
     }//GEN-LAST:event_btnModificarActionPerformed
 
@@ -292,6 +297,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
                     reserva = new JMMV_Reserva(idCliente, nombres, idBicicleta, bicicleta, fechaInicConv, fechaTerConv);
                     controlador.JMMV_AgregarReserva(reserva);
                     JOptionPane.showMessageDialog(this, "Reserva agregada con éxito", "Reserva Agregada", JOptionPane.INFORMATION_MESSAGE);
+                    CompositorLimpio();
                 } else {
                     reserva.setJMMV_Reserva_nomCliente(nombres);
                     reserva.setJMMV_Reserva_idCliente(idCliente);
@@ -301,6 +307,7 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
                     reserva.setJMMV_Reserva_fechaFin(fechaTerConv);
                     controlador.JMMV_ActualizarReserva(reserva);
                     JOptionPane.showMessageDialog(this, "Reserva actualizada con éxito", "Reserva Actualizada", JOptionPane.INFORMATION_MESSAGE);
+                    CompositorLimpio();
                 }
 
             }
@@ -348,6 +355,15 @@ public class JMMV_GestionReserva extends javax.swing.JFrame {
         for (JMMV_Reserva reserva : reservas) {
             cBoxClientes.addItem(reserva.getJMMV_Reserva_nomCliente());
         }
+    }
+    
+    private void CompositorLimpio() {
+        JMMV_GestionReserva gestionReservas = new JMMV_GestionReserva();
+        gestionReservas.setTitle("Gestion Reservas");
+        gestionReservas.setLocationRelativeTo(null);
+        gestionReservas.setResizable(false);
+        gestionReservas.setVisible(true);
+        this.dispose();
     }
  
 

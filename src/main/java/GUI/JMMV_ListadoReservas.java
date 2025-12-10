@@ -11,16 +11,21 @@ import javax.swing.ListSelectionModel;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.table.DefaultTableModel;
-import logica.JMMV_Bicicleta;
+import logica.JMMV_Cliente;
+
 import logica.JMMV_Reserva;
+
 
 public class JMMV_ListadoReservas extends javax.swing.JFrame {
     
     JMMV_Controlador controlador = new JMMV_Controlador();
     JMMV_Reserva reserva;
+    List <JMMV_Cliente> cliente;
+    List <JMMV_Reserva> listaReservas;
     public JMMV_ListadoReservas() {
         initComponents();
         CargarTabla();
+        SeleccionadorDeTabla(tbListado);
     }
 
     
@@ -144,6 +149,11 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
             }
         ));
         tbListado.setRowHeight(30);
+        tbListado.addMouseListener(new java.awt.event.MouseAdapter() {
+            public void mouseClicked(java.awt.event.MouseEvent evt) {
+                lbListadoMouseClicked(evt);
+            }
+        });
         jScrollPane1.setViewportView(tbListado);
 
         jPanel2.add(jScrollPane1);
@@ -181,6 +191,10 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
         this.dispose();
     }//GEN-LAST:event_btnInicioActionPerformed
 
+    private void lbListadoMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_lbListadoMouseClicked
+        this.dispose();
+    }//GEN-LAST:event_lbListadoMouseClicked
+
    private void CargarTabla() {
        List <JMMV_Reserva> ReservasActivas = controlador.JMMV_ObtenerTodasLasReservasActivas();
        DefaultTableModel modelo = (DefaultTableModel) tbListado.getModel();
@@ -195,17 +209,20 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
             @Override
             public void valueChanged(ListSelectionEvent e) {
                 if (!e.getValueIsAdjusting()) {
-                    int selectedRow = tbListado.getSelectedRow();
+                    int selectedRow = tabla.getSelectedRow();
                     if (selectedRow != -1) {
-                        Object nombresCliente = tbListado.getValueAt(selectedRow, 0);
+                        Object nombresCliente = tabla.getValueAt(selectedRow, 0);
                         System.out.println(nombresCliente.toString());
-                        //nombreCliente = nombresCliente.toString();
-                        //cliente = controlador.JMMV_ObtenerClientePorNombre(nombreCliente);
-                        //JMMV_GestionUsuarios gestionUser = new JMMV_GestionUsuarios(cliente.get(0));
-                        //gestionUser.setTitle("Editar Cliente");
-                        //gestionUser.setResizable(false);
-                        //gestionUser.setLocationRelativeTo(null);
-                        //gestionUser.setVisible(true);
+                        String nombreCliente = nombresCliente.toString();
+                        cliente = controlador.JMMV_ObtenerClienteDeCBox(nombreCliente);
+                        System.out.println("aca cliente");
+                        listaReservas = controlador.JMMV_ObtenerTodasLasReservasActivasDeCliente(cliente.get(0).getJMMV_Cliente_idCliente());
+                        System.out.println("lista reserva hecha");
+                        JMMV_GestionReserva gestionReserva = new JMMV_GestionReserva(listaReservas.get(0));
+                        gestionReserva.setTitle("Editar Reserva");
+                        gestionReserva.setResizable(false);
+                        gestionReserva.setLocationRelativeTo(null);
+                        gestionReserva.setVisible(true);
                     }
                 }
             }

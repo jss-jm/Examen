@@ -5,6 +5,8 @@ import DAO.JMMV_ClienteDAO;
 import DAO.JMMV_BicicletaDAO;
 import DAO.JMMV_ReservaDAO;
 import java.sql.SQLException;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import logica.JMMV_Cliente;
 import logica.JMMV_Bicicleta;
@@ -229,6 +231,16 @@ public class JMMV_Controlador {
         return clienteDAO.JMMV_ContarReservasVigentesDeClientesPorIdCliente(idCliente);
         
         
+    }
+    
+    public void InitReservas() {
+        List <JMMV_Reserva> reservasActivas = reservaDAO.JMMV_ObtenerTodasLasReservasActivas();
+        for (JMMV_Reserva reservaActiva : reservasActivas) {
+            System.out.println(LocalDate.now());
+            if(reservaActiva.getJMMV_Reserva_fechaFin().isBefore(LocalDate.now())) {
+                reservaDAO.JMMV_EliminarReserva(reservaActiva.getJMMV_Reserva_idReserva());
+            } 
+        }
     }
 
 }

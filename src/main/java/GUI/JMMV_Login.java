@@ -12,9 +12,11 @@ import javax.swing.JOptionPane;
 
 public class JMMV_Login extends javax.swing.JFrame {
 
-    
+    JMMV_Controlador controlador = new JMMV_Controlador();
     public JMMV_Login() {
         initComponents();
+        controlador.InitReservas();
+        
     }
     
     @SuppressWarnings("unchecked")
