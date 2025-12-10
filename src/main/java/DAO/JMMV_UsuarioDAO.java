@@ -52,6 +52,7 @@ public class JMMV_UsuarioDAO {
                     
                 }
             System.out.println("Conexión exitosa");
+            System.out.println("Test | Usuario: "+usuario);
             return usuario;
             
         } catch (SQLException e) {

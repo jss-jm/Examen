@@ -66,6 +66,13 @@ public class JMMV_Controlador {
         return listaClientes;
     }
     
+    public List<JMMV_Cliente> JMMV_ObtenerNombreApellidoYNombresCompletosClientesActivos() {
+
+        List<JMMV_Cliente> listaNombreApellidoYNombreCompleto = clienteDAO.JMMV_ObtenerNombreApellidoYNombresCompletosClientesActivos();
+        
+        return listaNombreApellidoYNombreCompleto;
+    }
+    
     public List<JMMV_Cliente> JMMV_ObtenerClienteDeCBox(String nombreCompleto) {
         String[] transformador = nombreCompleto.split("\\s+");
         System.out.println(transformador.length);
@@ -190,6 +197,13 @@ public class JMMV_Controlador {
         
     }
     
+    public List<JMMV_Reserva> JMMV_ObtenerTodasLasReservasActivasDeCliente(int idCliente) {
+
+        List<JMMV_Reserva> listaReservasDeCliente = reservaDAO.JMMV_ObtenerTodasLasReservasActivasDeCliente(idCliente);
+        
+        return listaReservasDeCliente;
+    }
+    
     public JMMV_Bicicleta JMMV_ObtenerBicicletaPorNombre (String bicicleta) {
         return bicicletaDAO.JMMV_ObtenerBicicletaPorNombre(bicicleta);
     }
@@ -198,7 +212,10 @@ public class JMMV_Controlador {
         return bicicletaDAO.JMMV_ObtenerIdBicicletaPorNombre(bicicleta);
     }
     
-    //probar
+    
+    
+    
+    //creo que no se usará
     public int JMMV_ContarReservasVigentesDeClientes (String nombres){
         
         int idCliente = clienteDAO.JMMV_ObtenerIdClientePorNombres(nombres);

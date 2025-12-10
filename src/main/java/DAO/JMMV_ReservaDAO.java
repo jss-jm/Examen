@@ -25,10 +25,8 @@ public class JMMV_ReservaDAO {
         String sql = "SELECT "
                 + "r.JMMV_reservas_id_reserva AS id, "
                 + "r.JMMV_reservas_id_cliente AS id_cliente, "
-                + "c.JMMV_clientes_nombres AS nombre_cliente, "
-                + "c.JMMV_clientes_apellido_paterno AS ap_pat, "
-                + "c.JMMV_clientes_apellido_materno AS ap_mat, "
-                + "CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',JMMV_clientes_apellido_materno) AS nombre_cliente, "
+               
+                + "CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',COALESCE(JMMV_clientes_apellido_materno,'')) AS nombre_cliente, "
                 + "r.JMMV_reservas_id_bicicleta AS id_bicicleta, "
                 + "b.JMMV_bicicletas_nombre AS nombre_bicicleta, "
                 + "r.JMMV_reservas_fecha_inicio AS fecha_inicio, "
@@ -60,10 +58,14 @@ public class JMMV_ReservaDAO {
 
                     listaReservas.add(reserva);
                 }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error al obtener todas las reservas activas: " + e.getMessage());
             }
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al obtener todas las reservas activas: "+e.getMessage());
         }
 
         return listaReservas;
@@ -91,11 +93,12 @@ public class JMMV_ReservaDAO {
 
             //ejecutar INSERT
             pstmt.executeUpdate();
-            System.out.println("consulta hecha");
+            System.out.println("Reserva agregada");
             return true;
 
         } catch (SQLException e) {
             e.printStackTrace();
+            System.out.println("Error al agregar reserva: "+e.getMessage());
 
             return false;
         }
@@ -137,6 +140,8 @@ public class JMMV_ReservaDAO {
 
     public boolean JMMV_EliminarReserva(int idReserva) {
 
+        System.out.println("Test | Eliminar bici | id reserva: "+idReserva);
+        
         String sql = "UPDATE JMMV_reservas "
                 + "SET "
                 + "JMMV_reservas_esta_activo = ? "
@@ -155,10 +160,67 @@ public class JMMV_ReservaDAO {
         } catch (SQLException e) {
 
             e.printStackTrace();
+            System.out.println("Error al eliminar bicicleta: "+e.getMessage());
 
             return false;
         }
 
+    }
+    
+    //métodos auxiliares
+    
+    //obtener todas la reservas activas de un cliente por su id cliente
+    public List<JMMV_Reserva> JMMV_ObtenerTodasLasReservasActivasDeCliente(int idCliente) {
+
+        List<JMMV_Reserva> listaReservasDeCliente = new ArrayList<>();
+
+        String sql = "SELECT "
+                + "r.JMMV_reservas_id_reserva AS id_reserva, "
+                + "r.JMMV_reservas_id_cliente AS id_cliente, "
+                + "CONCAT(JMMV_clientes_nombres,' ',JMMV_clientes_apellido_paterno,' ',COALESCE(JMMV_clientes_apellido_materno,'')) AS nombre_cliente, "
+                + "r.JMMV_reservas_id_bicicleta AS id_bicicleta, "
+                + "b.JMMV_bicicletas_nombre AS nombre_bicicleta, "
+                + "r.JMMV_reservas_fecha_inicio AS fecha_inicio, "
+                + "r.JMMV_reservas_fecha_fin AS fecha_fin "
+                + "FROM JMMV_reservas r "
+                + "JOIN JMMV_clientes c ON r.JMMV_reservas_id_cliente = c.JMMV_clientes_id_cliente "
+                + "JOIN JMMV_bicicletas b ON r.JMMV_reservas_id_bicicleta = b.JMMV_bicicletas_id_bicicleta "
+                + "WHERE r.JMMV_reservas_esta_activo = ? && r.JMMV_reservas_fecha_fin >= NOW() && c.JMMV_clientes_id_cliente = ? "
+                + "ORDER BY r.JMMV_reservas_id_reserva ASC";
+
+        try (Connection conn = conexion.JMMV_Conectar(); 
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setBoolean(1, true);
+            pstmt.setInt(2, idCliente);
+
+            try (ResultSet rs = pstmt.executeQuery()) {
+
+                while (rs.next()) {
+
+                    int JMMV_idReserva = rs.getInt("id_reserva");
+                    int JMMV_idCliente = rs.getInt("id_cliente");
+                    String JMMV_nomCliente = rs.getString("nombre_cliente");
+                    int JMMV_idBicicleta = rs.getInt("id_bicicleta");
+                    String JMMV_nomBicicleta = rs.getString("nombre_bicicleta");
+                    LocalDate JMMV_fechaInicio = rs.getDate("fecha_inicio").toLocalDate();
+                    LocalDate JMMV_fechaFin = rs.getDate("fecha_fin").toLocalDate();
+
+                    JMMV_Reserva reserva = new JMMV_Reserva(JMMV_idReserva, JMMV_idCliente, JMMV_nomCliente, JMMV_idBicicleta, JMMV_nomBicicleta, JMMV_fechaInicio, JMMV_fechaFin);
+
+                    listaReservasDeCliente.add(reserva);
+                }
+            } catch (SQLException e) {
+                e.printStackTrace();
+                System.out.println("Error al obtener las reservas activas de cliente: " + e.getMessage());
+            }
+
+        } catch (SQLException e) {
+            e.printStackTrace();
+            System.out.println("Error al obtener las reservas activas de cliente: "+e.getMessage());
+        }
+
+        return listaReservasDeCliente;
     }
 
 }
