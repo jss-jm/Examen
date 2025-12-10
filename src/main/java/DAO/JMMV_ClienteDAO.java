@@ -555,7 +555,7 @@ public class JMMV_ClienteDAO {
 
                     //agregar cliente a lista
                     listaClientes.add(cliente);
-                    System.out.println(listaClientes.size());
+                    System.out.println("Lista clientes de sql | " + listaClientes.size());
                 }
             }catch (SQLException e) {
             e.printStackTrace();

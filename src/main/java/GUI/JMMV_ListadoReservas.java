@@ -216,6 +216,7 @@ public class JMMV_ListadoReservas extends javax.swing.JFrame {
                         String nombreCliente = nombresCliente.toString();
                         cliente = controlador.JMMV_ObtenerClienteDeCBox(nombreCliente);
                         System.out.println("aca cliente");
+                        System.out.println(cliente.size());
                         listaReservas = controlador.JMMV_ObtenerTodasLasReservasActivasDeCliente(cliente.get(0).getJMMV_Cliente_idCliente());
                         System.out.println("lista reserva hecha");
                         JMMV_GestionReserva gestionReserva = new JMMV_GestionReserva(listaReservas.get(0));

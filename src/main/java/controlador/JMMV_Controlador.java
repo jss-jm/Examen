@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.List;
+import javax.swing.JOptionPane;
 import logica.JMMV_Cliente;
 import logica.JMMV_Bicicleta;
 import logica.JMMV_Reserva;
@@ -76,30 +77,89 @@ public class JMMV_Controlador {
     }
     
     public List<JMMV_Cliente> JMMV_ObtenerClienteDeCBox(String nombreCompleto) {
+        System.out.println(nombreCompleto);
         String[] transformador = nombreCompleto.split("\\s+");
+        
         System.out.println(transformador.length);
         String nombre = "";
-        System.out.println(transformador[0]);
-        System.out.println(transformador[1]);
-
-        for (int i = 0; i < 2; i++) {
-            if (transformador.length == 3) {
-                nombre = nombre.concat(transformador[i]);
-                break;
-            } else {
-                if (i == 1) {
-                    nombre = nombre.concat(transformador[i]);
-                } else {
-                    nombre = nombre.concat(transformador[i] + " ");
+        
+        switch (transformador.length) {
+            case 2 -> {
+                nombre = nombre.concat(transformador[0]);
+                List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
+                return listaClientes;
+            }
+            case 3 -> {
+                nombre = nombre.concat(transformador[0] + " ");
+                nombre = nombre.concat(transformador[1]);
+                try {
+                    List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
+                    System.out.println("Tamaño lista de clientes encontrados | " + listaClientes.size());
+                    System.out.println(listaClientes.get(0).getJMMV_Cliente_idCliente());
+                    return listaClientes;
+                } catch (Exception e) {
+                    System.out.println("No");
+                    nombre = "";
+                }
+                nombre = nombre.concat(transformador[0]);
+                try {
+                    List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
+                    System.out.println("Tamaño lista de clientes encontrados | " + listaClientes.size());
+                    listaClientes.get(0);
+                    System.out.println(listaClientes.get(0).getJMMV_Cliente_idCliente());
+                    return listaClientes;
+                } catch (Exception e) {
+                    System.out.println("No");
+                    nombre = "";
+                    return null;
                 }
             }
-
+            case 4 -> {
+                nombre = nombre.concat(transformador[0] + " ");
+                nombre = nombre.concat(transformador[1]);
+                try {
+                    List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
+                    System.out.println("Tamaño lista de clientes encontrados | " + listaClientes.size());
+                    listaClientes.get(0);
+                    System.out.println(listaClientes.get(0).getJMMV_Cliente_idCliente());
+                    return listaClientes;
+                } catch (Exception e) {
+                    System.out.println("No");
+                    nombre = "";
+                }
+                nombre = nombre.concat(transformador[0] + " ");
+                nombre = nombre.concat(transformador[1] + " ");
+                nombre = nombre.concat(transformador[2]);
+                try {
+                    List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
+                    System.out.println("Tamaño lista de clientes encontrados | " + listaClientes.size());
+                    listaClientes.get(0);
+                    System.out.println(listaClientes.get(0).getJMMV_Cliente_idCliente());
+                    return listaClientes;
+                } catch (Exception e) {
+                    System.out.println("No");
+                    nombre = "";
+                    return null;
+                }
+            }
+            case 5 -> {
+                nombre = nombre.concat(transformador[0] + " ");
+                nombre = nombre.concat(transformador[1] + " ");
+                nombre = nombre.concat(transformador[2]);
+                System.out.println(nombre);
+                try {
+                    List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
+                    listaClientes.get(0);
+                    return listaClientes;
+                } catch (Exception e) {
+                    System.out.println("No");
+                    return null;
+                }
+            }
+            default -> {
+                return null;
+            }
         }
-        System.out.println(nombre);
-        List<JMMV_Cliente> listaClientes = clienteDAO.JMMV_ObtenerClientePorNombre(nombre);
-        System.out.println(listaClientes.size());
-        
-        return listaClientes;
     }
         
     public List<JMMV_Cliente> JMMV_ObtenerClientePorRun(int run) {
